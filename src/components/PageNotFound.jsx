@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 PageNotFound.propTypes = {
 
@@ -23,7 +24,7 @@ function PageNotFound(props) {
                     <h1 className="error-title">Error 404</h1>
                     <p>We are sorry, the page you've requested is not available.</p>
                     <a href="index.html" className="btn btn-outline-primary-2 btn-minwidth-lg">
-                        <span>BACK TO HOMEPAGE</span>
+                        <span><Link to="/home">BACK TO HOMEPAGE</Link></span>
                         <i className="icon-long-arrow-right"></i>
                     </a>
                 </div>

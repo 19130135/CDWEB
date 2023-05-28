@@ -64,7 +64,7 @@ function Category(props) {
                             <div className="row">
                                 <div className="col-md-6">
                                     <div className="banner banner-cat banner-badge">
-                                        <a href="#">
+                                        <a >
                                             <img src="assets/images/category/boxed/banner-1.jpg" alt="Banner" />
                                         </a>
 
@@ -96,7 +96,7 @@ function Category(props) {
                                                     <img src="assets/images/category/boxed/banner-3.jpg" alt="Banner" />
                                                 </a>
 
-                                                <a className="banner-link" href="#">
+                                                <a className="banner-link" >
                                                     <h3 className="banner-title">Camera</h3>
                                                     <h4 className="banner-subtitle">1 Products</h4>
                                                     <span className="banner-link-text" onClick={() => { handleNavigate("camera") }}>Shop Now</span>
@@ -110,7 +110,7 @@ function Category(props) {
                                                     <img src="assets/images/category/boxed/banner-4.jpg" alt="Banner" />
                                                 </a>
 
-                                                <a className="banner-link" href="#">
+                                                <a className="banner-link" >
                                                     <h3 className="banner-title">Play Station</h3>
                                                     <h4 className="banner-subtitle">1 Products</h4>
                                                     <span className="banner-link-text" onClick={() => { handleNavigate("play station") }}>Shop Now</span>
@@ -124,7 +124,7 @@ function Category(props) {
                                             <img src="assets/images/category/boxed/banner-5.jpg" alt="Banner" />
                                         </a>
 
-                                        <a className="banner-link" href="#">
+                                        <a className="banner-link" >
                                             <h3 className="banner-title">Robot</h3>
                                             <h4 className="banner-subtitle">1 Products</h4>
                                             <span className="banner-link-text" onClick={() => { handleNavigate("robot") }}>Shop Now</span>

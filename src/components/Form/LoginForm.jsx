@@ -24,10 +24,10 @@ const LoginForm = () => {
     const handleNavigate = () => {
         navigate("/home");
     }
+    const testToken = "";
     const dispatch = useDispatch();
     const handleLogin = async (e) => {
         e.preventDefault()
-        console.log("---123454545 ")
         try {
             const response = await axios({
                 method: "POST",
@@ -40,11 +40,13 @@ const LoginForm = () => {
             if (response.data && response.data.token) {
                 dispatch(setAccount(response.data));
                 handleNavigate();
+                testToken = user.token;
                 console.log("---data", response.data)
             }
             console.log(response)
-        } catch (err) {
-            console.log("---err", err)
+        } catch (ERR_BAD_REQUEST) {
+            // console.log("---err", err)
+            alert("Wrong email or password. Please log in again!");
         }
     }
 

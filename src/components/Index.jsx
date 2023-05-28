@@ -18,7 +18,7 @@ function Index(props) {
         console.log("----id", id)
         navigate(`/productDetail/${id}`);
     }
-
+    
 
     // console.log(listProducts);
     const fetchAPIProducts = async () => {

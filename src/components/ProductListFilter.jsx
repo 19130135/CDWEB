@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { increment, selectFilteredProducts, selectProducts } from '../features/counter/productsSlice';
 import { useNavigate, useParams } from "react-router-dom";
+import { selectCategories } from '../features/counter/categoriesSlice';
 
 
 ProductListFilter.propTypes = {
@@ -40,6 +41,7 @@ ProductListFilter.propTypes = {
 
 function ProductListFilter(props) {
     // var { products } = this.state;
+    const listCategories = useSelector(selectCategories);
     const navigate = useNavigate();
     const handleNavigate = (id) => {
         console.log("----id", id)
@@ -81,7 +83,7 @@ function ProductListFilter(props) {
         <main className="main">
             <div className="page-header text-center" style={{ backgroundImage: ' url(assets/images/page-header-bg.jpg)' }}>
                 <div className="container">
-                    <h1 className="page-title">List of ""<span>Shop</span></h1>
+                    <h1 className="page-title">List of "{category}"<span>TechShop</span></h1>
                 </div>
             </div>
             <nav aria-label="breadcrumb" className="breadcrumb-nav mb-2">
@@ -101,7 +103,7 @@ function ProductListFilter(props) {
                             <div className="toolbox">
                                 <div className="toolbox-left">
                                     <div className="toolbox-info">
-                                        Showing <span>9 of 56</span> Products
+                                        Showing <span>{listFilteredProducts.length}</span> Products
                                     </div>
                                 </div>
 
@@ -206,7 +208,7 @@ function ProductListFilter(props) {
                                                         <div className="product-cat">
                                                             <a href="#">Women</a>
                                                         </div>
-                                                        <h3 className="product-title"><a href="product.html">{product.name}</a></h3>
+                                                        <h3 className="product-title"><a onClick={() => { handleNavigate(product.id) }}>{product.name}</a></h3>
 
                                                         <div className="product-content">
                                                             <p>{product.decription}</p>
@@ -215,7 +217,7 @@ function ProductListFilter(props) {
                                                         <div className="product-nav product-nav-thumbs">
                                                             {product.images.map((image, index) => {
                                                                 return (
-                                                                    <a href="#" className="active">
+                                                                    <a className="active">
                                                                         <img src={image.url} alt="product desc" />
                                                                     </a>
                                                                 )
@@ -265,217 +267,21 @@ function ProductListFilter(props) {
                                     <div className="collapse show" id="widget-1">
                                         <div className="widget-body">
                                             <div className="filter-items filter-items-count">
-                                                <div className="filter-item">
-                                                    <div className="custom-control custom-checkbox">
-                                                        <input type="checkbox" className="custom-control-input" id="cat-1" />
-                                                        <label className="custom-control-label" htmlFor="cat-1">Dresses</label>
-                                                    </div>
-                                                    <span className="item-count">3</span>
-                                                </div>
-
-                                                <div className="filter-item">
-                                                    <div className="custom-control custom-checkbox">
-                                                        <input type="checkbox" className="custom-control-input" id="cat-2" />
-                                                        <label className="custom-control-label" htmlFor="cat-2">T-shirts</label>
-                                                    </div>
-                                                    <span className="item-count">0</span>
-                                                </div>
-
-                                                <div className="filter-item">
-                                                    <div className="custom-control custom-checkbox">
-                                                        <input type="checkbox" className="custom-control-input" id="cat-3" />
-                                                        <label className="custom-control-label" htmlFor="cat-3">Bags</label>
-                                                    </div>
-                                                    <span className="item-count">4</span>
-                                                </div>
-
-                                                <div className="filter-item">
-                                                    <div className="custom-control custom-checkbox">
-                                                        <input type="checkbox" className="custom-control-input" id="cat-4" />
-                                                        <label className="custom-control-label" htmlFor="cat-4">Jackets</label>
-                                                    </div>
-                                                    <span className="item-count">2</span>
-                                                </div>
-
-                                                <div className="filter-item">
-                                                    <div className="custom-control custom-checkbox">
-                                                        <input type="checkbox" className="custom-control-input" id="cat-5" />
-                                                        <label className="custom-control-label" htmlFor="cat-5">Shoes</label>
-                                                    </div>
-                                                    <span className="item-count">2</span>
-                                                </div>
-
-                                                <div className="filter-item">
-                                                    <div className="custom-control custom-checkbox">
-                                                        <input type="checkbox" className="custom-control-input" id="cat-6" />
-                                                        <label className="custom-control-label" htmlFor="cat-6">Jumpers</label>
-                                                    </div>
-                                                    <span className="item-count">1</span>
-                                                </div>
-
-                                                <div className="filter-item">
-                                                    <div className="custom-control custom-checkbox">
-                                                        <input type="checkbox" className="custom-control-input" id="cat-7" />
-                                                        <label className="custom-control-label" htmlFor="cat-7">Jeans</label>
-                                                    </div>
-                                                    <span className="item-count">1</span>
-                                                </div>
-
-                                                <div className="filter-item">
-                                                    <div className="custom-control custom-checkbox">
-                                                        <input type="checkbox" className="custom-control-input" id="cat-8" />
-                                                        <label className="custom-control-label" htmlFor="cat-8">Sportwear</label>
-                                                    </div>
-                                                    <span className="item-count">0</span>
-                                                </div>
+                                                {listCategories.map((categories, index) => {
+                                                    return (
+                                                        <div className="filter-item">
+                                                            <div className="custom-control custom-checkbox">
+                                                                <input type="checkbox" className="custom-control-input" id="cat-1" />
+                                                                <label className="custom-control-label" htmlFor="cat-1">{categories.name}</label>
+                                                            </div>
+                                                            <span className="item-count">3</span>
+                                                        </div>
+                                                    )
+                                                })}
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-
-                                <div className="widget widget-collapsible">
-                                    <h3 className="widget-title">
-                                        <a data-toggle="collapse" href="#widget-2" role="button" aria-expanded="true" aria-controls="widget-2">
-                                            Size
-                                        </a>
-                                    </h3>
-
-                                    <div className="collapse show" id="widget-2">
-                                        <div className="widget-body">
-                                            <div className="filter-items">
-                                                <div className="filter-item">
-                                                    <div className="custom-control custom-checkbox">
-                                                        <input type="checkbox" className="custom-control-input" id="size-1" />
-                                                        <label className="custom-control-label" htmlFor="size-1">XS</label>
-                                                    </div>
-                                                </div>
-
-                                                <div className="filter-item">
-                                                    <div className="custom-control custom-checkbox">
-                                                        <input type="checkbox" className="custom-control-input" id="size-2" />
-                                                        <label className="custom-control-label" htmlFor="size-2">S</label>
-                                                    </div>
-                                                </div>
-
-                                                <div className="filter-item">
-                                                    <div className="custom-control custom-checkbox">
-                                                        <input type="checkbox" className="custom-control-input" checked id="size-3" />
-                                                        <label className="custom-control-label" htmlFor="size-3">M</label>
-                                                    </div>
-                                                </div>
-
-                                                <div className="filter-item">
-                                                    <div className="custom-control custom-checkbox">
-                                                        <input type="checkbox" className="custom-control-input" checked id="size-4" />
-                                                        <label className="custom-control-label" htmlFor="size-4">L</label>
-                                                    </div>
-                                                </div>
-
-                                                <div className="filter-item">
-                                                    <div className="custom-control custom-checkbox">
-                                                        <input type="checkbox" className="custom-control-input" id="size-5" />
-                                                        <label className="custom-control-label" htmlFor="size-5">XL</label>
-                                                    </div>
-                                                </div>
-
-                                                <div className="filter-item">
-                                                    <div className="custom-control custom-checkbox">
-                                                        <input type="checkbox" className="custom-control-input" id="size-6" />
-                                                        <label className="custom-control-label" htmlFor="size-6">XXL</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className="widget widget-collapsible">
-                                    <h3 className="widget-title">
-                                        <a data-toggle="collapse" href="#widget-3" role="button" aria-expanded="true" aria-controls="widget-3">
-                                            Colour
-                                        </a>
-                                    </h3>
-
-                                    <div className="collapse show" id="widget-3">
-                                        <div className="widget-body">
-                                            <div className="filter-colors">
-                                                <a href="#" style={{ background: ' #b87145' }}><span className="sr-only">Color Name</span></a>
-                                                <a href="#" style={{ background: ' #f0c04a' }}><span className="sr-only">Color Name</span></a>
-                                                <a href="#" style={{ background: ' #333333' }}><span className="sr-only">Color Name</span></a>
-                                                <a href="#" className="selected" style={{ background: ' #cc3333' }}><span className="sr-only">Color Name</span></a>
-                                                <a href="#" style={{ background: ' #3399cc' }}><span className="sr-only">Color Name</span></a>
-                                                <a href="#" style={{ background: ' #669933' }}><span className="sr-only">Color Name</span></a>
-                                                <a href="#" style={{ background: ' #f2719c' }}><span className="sr-only">Color Name</span></a>
-                                                <a href="#" style={{ background: ' #ebebeb' }}><span className="sr-only">Color Name</span></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className="widget widget-collapsible">
-                                    <h3 className="widget-title">
-                                        <a data-toggle="collapse" href="#widget-4" role="button" aria-expanded="true" aria-controls="widget-4">
-                                            Brand
-                                        </a>
-                                    </h3>
-
-                                    <div className="collapse show" id="widget-4">
-                                        <div className="widget-body">
-                                            <div className="filter-items">
-                                                <div className="filter-item">
-                                                    <div className="custom-control custom-checkbox">
-                                                        <input type="checkbox" className="custom-control-input" id="brand-1" />
-                                                        <label className="custom-control-label" htmlFor="brand-1">Next</label>
-                                                    </div>
-                                                </div>
-
-                                                <div className="filter-item">
-                                                    <div className="custom-control custom-checkbox">
-                                                        <input type="checkbox" className="custom-control-input" id="brand-2" />
-                                                        <label className="custom-control-label" htmlFor="brand-2">River Island</label>
-                                                    </div>
-                                                </div>
-
-                                                <div className="filter-item">
-                                                    <div className="custom-control custom-checkbox">
-                                                        <input type="checkbox" className="custom-control-input" id="brand-3" />
-                                                        <label className="custom-control-label" htmlFor="brand-3">Geox</label>
-                                                    </div>
-                                                </div>
-
-                                                <div className="filter-item">
-                                                    <div className="custom-control custom-checkbox">
-                                                        <input type="checkbox" className="custom-control-input" id="brand-4" />
-                                                        <label className="custom-control-label" htmlFor="brand-4">New Balance</label>
-                                                    </div>
-                                                </div>
-
-                                                <div className="filter-item">
-                                                    <div className="custom-control custom-checkbox">
-                                                        <input type="checkbox" className="custom-control-input" id="brand-5" />
-                                                        <label className="custom-control-label" htmlFor="brand-5">UGG</label>
-                                                    </div>
-                                                </div>
-
-                                                <div className="filter-item">
-                                                    <div className="custom-control custom-checkbox">
-                                                        <input type="checkbox" className="custom-control-input" id="brand-6" />
-                                                        <label className="custom-control-label" htmlFor="brand-6">F&F</label>
-                                                    </div>
-                                                </div>
-
-                                                <div className="filter-item">
-                                                    <div className="custom-control custom-checkbox">
-                                                        <input type="checkbox" className="custom-control-input" id="brand-7" />
-                                                        <label className="custom-control-label" htmlFor="brand-7">Nike</label>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
                                 <div className="widget widget-collapsible">
                                     <h3 className="widget-title">
                                         <a data-toggle="collapse" href="#widget-5" role="button" aria-expanded="true" aria-controls="widget-5">
