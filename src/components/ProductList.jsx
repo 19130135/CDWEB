@@ -154,7 +154,7 @@ function ProductList(props) {
 
                             <div className="products mb-3">
 
-                                {listProducts.map((product, index) => {
+                                {listProducts?.map((product, index) => {
                                     return (
                                         <div className="product product-list">
                                             <div className="row">

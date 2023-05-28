@@ -2,8 +2,8 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-import { increment, selectProducts } from '../features/counter/productsSlice';
-import { useNavigate } from "react-router-dom";
+import { increment, selectFilteredProducts, selectProducts } from '../features/counter/productsSlice';
+import { useNavigate, useParams } from "react-router-dom";
 
 
 ProductListFilter.propTypes = {
@@ -45,18 +45,23 @@ function ProductListFilter(props) {
         console.log("----id", id)
         navigate(`/productDetail/${id}`);
     }
+    // Lay params sau url
+    const { category } = useParams();
+    console.log(category);
+
+
     const dispatch = useDispatch();
-    const listProducts = useSelector(selectProducts);
-    console.log(listProducts);
+    const listFilteredProducts = useSelector(selectFilteredProducts);
+    console.log(listFilteredProducts);
     const fetchAPIProducts = async () => {
         const response = await axios({
             method: 'GET',
-            url: 'http://localhost:8080/api/product/available_products',
+            url: `http://localhost:8080/api/product/category/${category}`,
+            
         })
-        console.log(response)
         if (response.data) {
             dispatch(increment({
-                products: response.data
+                filteredProducts: response.data
             }))
         }
     }
@@ -71,7 +76,7 @@ function ProductListFilter(props) {
         <main className="main">
             <div className="page-header text-center" style={{ backgroundImage: ' url(assets/images/page-header-bg.jpg)' }}>
                 <div className="container">
-                    <h1 className="page-title">List<span>Shop</span></h1>
+                    <h1 className="page-title">List of ""<span>Shop</span></h1>
                 </div>
             </div>
             <nav aria-label="breadcrumb" className="breadcrumb-nav mb-2">
@@ -154,7 +159,7 @@ function ProductListFilter(props) {
 
                             <div className="products mb-3">
 
-                                {listProducts.map((product, index) => {
+                                {listFilteredProducts?.map((product, index) => {
                                     return (
                                         <div className="product product-list">
                                             <div className="row">

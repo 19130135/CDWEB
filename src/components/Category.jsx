@@ -2,47 +2,48 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
-import { increment } from '../features/counter/productsSlice';
+import { increment, selectProducts } from '../features/counter/productsSlice';
 import { selectCategories } from '../features/counter/categoriesSlice';
+import { useNavigate } from 'react-router';
 
 Category.propTypes = {
 
 };
 
 function Category(props) {
-    const dispatch = useDispatch();
-    const [category, setCategory] = useState("");
-    const listCategories = useSelector(selectCategories);
+    const navigate = useNavigate();
 
-    const fetchDataFollowCategoryName = async () => {
-        try {
-            const response = await axios({
-                method: 'GET',
-                url: `http://localhost:8080/api/product/category/${category}`
-            })
-            if (response.data.length > 0) {
-                dispatch(increment({
-                    products: response.data
-                }))
-            }
-            console.log(response)
-        } catch (error) {
-            console.log("--err", error);
-        }
+    const handleNavigate = (category) => {
+        console.log("----category", category)
+        navigate(`/productList/${category}`);
     }
 
-    useEffect(() => {
-        if (category) {
-            fetchDataFollowCategoryName()
-        }
-    }, [category])
+    // const dispatch = useDispatch();
+    // const listProducts = useSelector(selectProducts);
+    // console.log(listProducts);
+    // const fetchAPIProducts = async () => {
+    //     const response = await axios({
+    //         method: 'GET',
+    //         url: `http://localhost:8080/api/product/category/${category}`,
+    //     })
+    //     console.log(response)
+    //     if (response.data) {
+    //         dispatch(increment({
+    //             products: response.data
+    //         }))
+    //     }
+    // }
+    // useEffect(() => {
+    //     fetchAPIProducts();
+    // }, [])
+
 
     return (
         <div>
             <main className="main">
                 <div className="page-header text-center" style={{ backgroundImage: ' url(assets/images/page-header-bg.jpg)' }} >
                     <div className="container">
-                        <h1 className="page-title">Product Category Boxed<span>Shop</span></h1>
+                        <h1 className="page-title">Categories<span>TechShop</span></h1>
                     </div>
                 </div>
                 <nav aria-label="breadcrumb" className="breadcrumb-nav breadcrumb-with-filter">
@@ -67,10 +68,10 @@ function Category(props) {
                                             <img src="assets/images/category/boxed/banner-1.jpg" alt="Banner" />
                                         </a>
 
-                                        <a className="banner-link" href="#">
+                                        <a className="banner-link">
                                             <h3 className="banner-title">Flycam</h3>
                                             <h4 className="banner-subtitle">2 Products</h4>
-                                            <span className="banner-link-text">Shop Now</span>
+                                            <span className="banner-link-text" onClick={() => { handleNavigate("flycam") }}>Shop Now</span>
                                         </a>
                                     </div>
 
@@ -82,7 +83,7 @@ function Category(props) {
                                         <a className="banner-link" href="#">
                                             <h3 className="banner-title">Coming soon...</h3>
                                             <h4 className="banner-subtitle">... Products</h4>
-                                            <span className="banner-link-text">Shop Now</span>
+                                            <span className="banner-link-text" >Shop Now</span>
                                         </a>
                                     </div>
                                 </div>
@@ -98,7 +99,7 @@ function Category(props) {
                                                 <a className="banner-link" href="#">
                                                     <h3 className="banner-title">Camera</h3>
                                                     <h4 className="banner-subtitle">1 Products</h4>
-                                                    <span className="banner-link-text">Shop Now</span>
+                                                    <span className="banner-link-text" onClick={() => { handleNavigate("camera") }}>Shop Now</span>
                                                 </a>
                                             </div>
                                         </div>
@@ -112,7 +113,7 @@ function Category(props) {
                                                 <a className="banner-link" href="#">
                                                     <h3 className="banner-title">Play Station</h3>
                                                     <h4 className="banner-subtitle">1 Products</h4>
-                                                    <span className="banner-link-text">Shop Now</span>
+                                                    <span className="banner-link-text" onClick={() => { handleNavigate("play station") }}>Shop Now</span>
                                                 </a>
                                             </div>
                                         </div>
@@ -126,7 +127,7 @@ function Category(props) {
                                         <a className="banner-link" href="#">
                                             <h3 className="banner-title">Robot</h3>
                                             <h4 className="banner-subtitle">1 Products</h4>
-                                            <span className="banner-link-text">Shop Now</span>
+                                            <span className="banner-link-text" onClick={() => { handleNavigate("robot") }}>Shop Now</span>
                                         </a>
                                     </div>
                                 </div>

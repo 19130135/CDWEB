@@ -21,7 +21,7 @@ function App() {
   return (
     <div>
       <Header />
-      <h1>Nhin cai gi ?</h1>
+      
       <Routes>
         <Route path="/" element={<Index />} />
         <Route path="/home" element={<Index />} />

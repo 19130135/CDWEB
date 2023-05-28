@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,24 +10,25 @@ Index.propTypes = {
 };
 
 function Index(props) {
+
+    const [listProducts, setListProducts] = useState([]);
+
     const navigate = useNavigate();
     const handleNavigate = (id) => {
         console.log("----id", id)
         navigate(`/productDetail/${id}`);
     }
-    const dispatch = useDispatch();
-    const listProducts = useSelector(selectProducts);
-    console.log(listProducts);
+
+
+    // console.log(listProducts);
     const fetchAPIProducts = async () => {
         const response = await axios({
             method: 'GET',
             url: 'http://localhost:8080/api/product/available_products',
         })
         console.log(response)
-        if (response.data) {
-            dispatch(increment({
-                products: response.data
-            }))
+        if (response.data && response.data.length > 0) {
+            setListProducts(response.data)
         }
     }
     useEffect(() => {
@@ -211,7 +212,7 @@ function Index(props) {
 
                             <div className="row">
                                 <div className="col-lg-4 col-md-4">
-                                    {listProducts.slice(0, 1).map((product, index) => {
+                                    {listProducts?.slice(0, 1).map((product, index) => {
                                         return (
                                             <div className="product-lg">
                                                 <figure className="product-media">
@@ -241,7 +242,7 @@ function Index(props) {
                                     <div className="tab-content">
                                         <div className="tab-pane fade show active" id="tab-featured" role="tabpanel" aria-labelledby="tab-featured-link">
                                             <div className="row products all">
-                                                {listProducts.map((product, index) => {
+                                                {listProducts?.map((product, index) => {
                                                     return (
                                                         <div className="col-lg-4 col-6">
                                                             <div className="product product-3 text-center">
@@ -757,7 +758,7 @@ function Index(props) {
                         </div>
                     </div>
 
-                    
+
 
                     <div className="container post">
 

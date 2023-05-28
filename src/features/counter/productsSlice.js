@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   products: [],
+  filteredProducts: [],
 };
 
 export const productsSlice = createSlice({
@@ -15,6 +16,7 @@ export const productsSlice = createSlice({
       // which detects changes to a "draft state" and produces a brand new
       // immutable state based off those changes
       state.products = action.payload.products;
+      state.filteredProducts = action.payload.filteredProducts;
     },
     decrement: (state) => {
       state.value -= 1;
@@ -30,4 +32,7 @@ export const { increment, decrement, incrementByAmount } =
   productsSlice.actions;
 
 export const selectProducts = (state) => state.products.products;
+export const selectFilteredProducts = (state) =>
+  state.products.filteredProducts;
+
 export default productsSlice.reducer;
