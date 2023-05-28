@@ -45,6 +45,11 @@ function ProductListFilter(props) {
         console.log("----id", id)
         navigate(`/productDetail/${id}`);
     }
+
+    const handleAddToCart = (id) => {
+        // console.log("---id", id)
+
+    }
     // Lay params sau url
     const { category } = useParams();
     console.log(category);
@@ -57,7 +62,7 @@ function ProductListFilter(props) {
         const response = await axios({
             method: 'GET',
             url: `http://localhost:8080/api/product/category/${category}`,
-            
+
         })
         if (response.data) {
             dispatch(increment({
@@ -191,7 +196,7 @@ function ProductListFilter(props) {
                                                             <a href="#" className="btn-product btn-compare" title="Compare"><span>compare</span></a>
                                                         </div>
 
-                                                        <a href="#" className="btn-product btn-cart"><span>add to cart</span></a>
+                                                        <a onClick={() => { handleAddToCart() }} className="btn-product btn-cart"><span>add to cart</span></a>
                                                     </div>
                                                 </div>
 

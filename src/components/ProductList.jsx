@@ -4,50 +4,44 @@ import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { increment, selectProducts } from '../features/counter/productsSlice';
 import { useNavigate } from "react-router-dom";
+import { addToCart, selectCartProducts } from '../features/counter/cartProductsSlice';
 
 
 ProductList.propTypes = {
 
 };
 
-
-
-// constructor(props) {
-//     super(props);
-//     this.state = {
-//         products: []
-//     };
-// }
-
-// componentDidMount() {
-//     axios({
-//         method: 'GET',
-//         url: 'http://localhost:8080/api/product/available_products',
-//         data: null
-
-//     }).then(res => {
-//         console.log(res);
-//         this.setState({
-//             products: res.data
-//         });
-//     }).catch(err => {
-//         console.log(err);
-//     });
-// }
-
-
-
-
 function ProductList(props) {
     // var { products } = this.state;
     const navigate = useNavigate();
     const handleNavigate = (id) => {
-        console.log("----id", id)
+        // console.log("----id", id)
         navigate(`/productDetail/${id}`);
     }
     const dispatch = useDispatch();
     const listProducts = useSelector(selectProducts);
-    console.log(listProducts);
+    const listCartProducts = useSelector(selectCartProducts);
+
+    // console.log(listProducts);
+
+    const handleAddToCart = async (item) => {
+        console.log("---item", item)
+        const response = await axios({
+            method: "POST",
+            url: "http://localhost:8080/api/order/cartproduct",
+            data: {
+                product: {
+                    id: item.id,
+                },
+                quantity: item.quantity,
+            }
+        })
+        console.log(response)
+
+
+        alert();
+    }
+
     const fetchAPIProducts = async () => {
         const response = await axios({
             method: 'GET',
@@ -186,7 +180,7 @@ function ProductList(props) {
                                                             <a href="#" className="btn-product btn-compare" title="Compare"><span>compare</span></a>
                                                         </div>
 
-                                                        <a href="#" className="btn-product btn-cart"><span>add to cart</span></a>
+                                                        <button onClick={() => { handleAddToCart(product) }} className="btn-product btn-cart"><span>add to cart</span></button>
                                                     </div>
                                                 </div>
 
