@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { selectCategories, setCategories } from "../features/counter/categoriesSlice";
@@ -11,14 +11,37 @@ import { selectCartProducts } from "../features/counter/cartProductsSlice";
 Header.propTypes = {};
 
 function Header(props) {
+  const name = localStorage.getItem('username');
+  const token = localStorage.getItem('token');
   const dispatch = useDispatch();
   const [category, setCategory] = useState("");
   const listCategories = useSelector(selectCategories);
   const [products, setProducts] = useState("");
   const listCartProducts = useSelector(selectCartProducts);
 
+  const handleLogout = async () => {
+    localStorage.clear();
+    handleNavigate();
+  }
 
+  const navigate = useNavigate();
+  const handleNavigate = () => {
+    navigate("/home");
+  }
 
+  let check = false;
+  const checkLogin = async () => {
+    console.log(123)
+    if (!token || !name) {
+      console.log("Unlogged in");
+      check = false;
+      return;
+    } else {
+      console.log("Logged in");
+      check = true;
+      return;
+    }
+  }
   const fetchAPIProducts = async () => {
     try {
       const response = await axios({
@@ -80,6 +103,16 @@ function Header(props) {
           <SearchInput />
 
           <div className="header-right">
+            <div onLoad={checkLogin()}>
+              {check == false ? (
+                <div>
+                  <a style={{ color: 'white' }}>Bạn chưa đăng nhập!</a>
+                </div>
+              ) : (<div>
+                <a style={{ color: 'white' }}>Xin chào, {name}</a> <br></br>
+                <a style={{ color: 'white' }} onClick={handleLogout}>Logout</a>
+              </div>)}
+            </div>
             <div className="dropdown cart-dropdown">
               <a href="#" className="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
                 <i className="icon-shopping-cart"></i>
@@ -727,3 +760,4 @@ function Header(props) {
 }
 
 export default Header;
+

@@ -39,6 +39,8 @@ const LoginForm = () => {
             if (response.data && response.data.token) {
                 dispatch(setAccount(response.data));
                 handleNavigate();
+                localStorage.setItem('token', response.data.token);
+                localStorage.setItem('username', response.data.name);
                 console.log("---data", response.data)
             }
             console.log(response)
