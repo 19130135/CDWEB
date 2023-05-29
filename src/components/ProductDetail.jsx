@@ -15,7 +15,6 @@ function ProductDetail(props) {
     const {id} = useParams();
     console.log(id);
 
-    // const listProducts = useSelector(selectProducts);
     const dispatch = useDispatch();
     const fetchAPIProducts = async () => {
         try{

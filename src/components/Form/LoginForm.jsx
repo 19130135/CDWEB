@@ -24,7 +24,6 @@ const LoginForm = () => {
     const handleNavigate = () => {
         navigate("/home");
     }
-    const testToken = "";
     const dispatch = useDispatch();
     const handleLogin = async (e) => {
         e.preventDefault()
@@ -40,13 +39,12 @@ const LoginForm = () => {
             if (response.data && response.data.token) {
                 dispatch(setAccount(response.data));
                 handleNavigate();
-                testToken = user.token;
                 console.log("---data", response.data)
             }
             console.log(response)
-        } catch (ERR_BAD_REQUEST) {
-            // console.log("---err", err)
-            alert("Wrong email or password. Please log in again!");
+        } catch (err) {
+            console.log("---err", err)
+            // alert("Wrong email or password. Please log in again!");
         }
     }
 

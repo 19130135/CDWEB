@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   products: [],
   filteredProducts: [],
+  searchedProducts: [],
 };
 
 export const productsSlice = createSlice({
@@ -17,6 +18,7 @@ export const productsSlice = createSlice({
       // immutable state based off those changes
       state.products = action.payload.products;
       state.filteredProducts = action.payload.filteredProducts;
+      state.searchedProducts = action.payload.searchedProducts;
     },
     decrement: (state) => {
       state.value -= 1;
@@ -34,5 +36,6 @@ export const { increment, decrement, incrementByAmount } =
 export const selectProducts = (state) => state.products.products;
 export const selectFilteredProducts = (state) =>
   state.products.filteredProducts;
-
+export const selectSearchedProducts = (state) =>
+  state.products.searchedProducts;
 export default productsSlice.reducer;

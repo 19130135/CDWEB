@@ -16,6 +16,7 @@ import { Routes } from "react-router-dom";
 import axios from "axios";
 import Category from "./components/Category";
 import ProductListFilter from "./components/ProductListFilter";
+import ProductListSearch from "./components/ProductListSearch";
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
         <Route path="/productList" element={<ProductList />} />
         <Route path="/category" element={<Category />} />
         <Route path="/productList/:category" element={<ProductListFilter />} />
+        <Route path="/productList/search/:searchValue" element={<ProductListSearch />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
       <Footer />
