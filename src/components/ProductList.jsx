@@ -42,7 +42,7 @@ function ProductList(props) {
                     quantity: 1,
                 },
                 headers: {
-                    'Authorization': `Basic ${localStorage.getItem('token')}`,
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
                 },
             })
             console.log("Added !" + response)
