@@ -103,7 +103,7 @@ function ProductListFilter(props) {
                             <div className="toolbox">
                                 <div className="toolbox-left">
                                     <div className="toolbox-info">
-                                        Showing <span>{listFilteredProducts.length}</span> Products
+                                        Showing <span>{listFilteredProducts?.length || 0}</span> Products
                                     </div>
                                 </div>
 

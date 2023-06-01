@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
@@ -12,30 +12,51 @@ ProductDetail.propTypes = {
 
 function ProductDetail(props) {
     //Lay params = id sau url
-    const {id} = useParams();
+    const { id } = useParams();
     console.log(id);
+    const [productDetail, setProductDetail] = useState();
 
     const dispatch = useDispatch();
+
+    const handleAddToCart = async (item) => {
+        if (!localStorage.getItem('token')) {
+            alert("Bạn phải đăng nhập trước khi sử dụng tính năng này!");
+        } else {
+            console.log("---item", item)
+            const response = await axios({
+                method: "POST",
+                url: "http://localhost:8080/api/order/cartproduct",
+                data: {
+                    product: {
+                        id: item.id,
+                    },
+                    quantity: 1,
+                },
+                headers: {
+                    'Authorization': `Basic ${localStorage.getItem('token')}`,
+                },
+            })
+            console.log("Added !" + response)
+        }
+    }
     const fetchAPIProducts = async () => {
-        try{
+        try {
             const response = await axios({
                 method: 'GET',
-                url: `http://localhost:8080/api/product/productID/${id}`,
+                url: `http://localhost:8080/api/product/productId/${id}`,
             })
-            console.log("---response",response)
-        }catch(err){
-            console.log("--errors",err)
+            if (response.status === 200) {
+                setProductDetail(response.data);
+            }
+            console.log("---response", response)
+        } catch (err) {
+            console.log("--errors", err)
         }
 
-        
-        // if (response.data) {
-        //     dispatch(increment({
-        //         products: response.data
-        //     }))
-        // }
     }
+    console.log("----PD", productDetail)
     useEffect(() => {
-            fetchAPIProducts()
+        fetchAPIProducts()
     }, [])
     return (
 
@@ -48,17 +69,7 @@ function ProductDetail(props) {
                         <li className="breadcrumb-item active" aria-current="page"></li>
                     </ol>
 
-                    <nav className="product-pager ml-auto" aria-label="Product">
-                        <a className="product-pager-link product-pager-prev" href="#" aria-label="Previous" tabIndex="-1">
-                            <i className="icon-angle-left"></i>
-                            <span>Prev</span>
-                        </a>
 
-                        <a className="product-pager-link product-pager-next" href="#" aria-label="Next" tabIndex="-1">
-                            <span>Next</span>
-                            <i className="icon-angle-right"></i>
-                        </a>
-                    </nav>
                 </div>
             </nav>
 
@@ -69,100 +80,61 @@ function ProductDetail(props) {
                             <div className="col-md-6">
                                 <div className="product-gallery product-gallery-vertical">
                                     <div className="row">
-                                        {/* {listProducts.map((product, index) => {
-                                            return (
-                                                <figure className="product-main-image">
-                                                    <img id="product-zoom" src="assets/images/products/single/1.jpg" data-zoom-image="assets/images/products/single/1-big.jpg" alt="product image" />
 
-                                                    <a href="#" id="btn-product-gallery" className="btn-product-gallery">
-                                                        <i className="icon-arrows"></i>
+                                        <figure className="product-main-image">
+                                            <img id="product-zoom" src={productDetail?.images[0]?.url} data-zoom-image="assets/images/products/single/1-big.jpg" alt="product image" />
+
+                                            <a href="#" id="btn-product-gallery" className="btn-product-gallery">
+                                                <i className="icon-arrows"></i>
+                                            </a>
+                                        </figure>
+
+                                        <div id="product-zoom-gallery" className="product-image-gallery">
+                                            {productDetail?.images?.map((image, index) => {
+                                                return (
+                                                    <a className="product-gallery-item active" data-image={image.url} data-zoom-image={image.url}>
+                                                        <img src={image.url} alt="product side" />
                                                     </a>
-                                                </figure>
-
-                                                <div id="product-zoom-gallery" className="product-image-gallery">
-                                                    {product.images.map((image, index) => {
-                                                        return (
-                                                            <a className="product-gallery-item active" href="#" data-image="assets/images/products/single/1.jpg" data-zoom-image="assets/images/products/single/1-big.jpg">
-                                                                <img src={image.url} alt="product side" />
-                                                            </a>
-                                                        )
-                                                    })}
-                                                </div>
-                                            )
-                                        })} */}
+                                                )
+                                            })}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
 
                             <div className="col-md-6">
                                 <div className="product-details">
-                                    <h1 className="product-title">Dark yellow lace cut out swing dress</h1>
+                                    <h1 className="product-title">{productDetail?.name}</h1>
 
                                     <div className="ratings-container">
                                         <div className="ratings">
-                                            <div className="ratings-val" style={{ width: ' 80%' }}></div>
+                                            <div className="ratings-val" style={{ width: `80%` }}></div>
                                         </div>
-                                        <a className="ratings-text" href="#product-review-link" id="review-link">( 2 Reviews )</a>
+                                        <a className="ratings-text" href="#product-review-link" id="review-link">( {productDetail?.feedbacks?.length} Reviews )</a>
                                     </div>
 
                                     <div className="product-price">
-                                        $84.00
+                                        {productDetail?.price}VND
                                     </div>
 
                                     <div className="product-content">
-                                        <p>Sed egestas, ante et vulputate volutpat, eros pede semper est, vitae luctus metus libero eu augue. Morbi purus libero, faucibus adipiscing. Sed lectus. </p>
+                                        <p>Điền cái gì đó ở đây nè!</p>
                                     </div>
-
                                     <div className="details-filter-row details-row-size">
-                                        <label>Color:</label>
-
-                                        <div className="product-nav product-nav-thumbs">
-                                            <a href="#" className="active">
-                                                <img src="assets/images/products/single/1-thumb.jpg" alt="product desc" />
-                                            </a>
-                                            <a href="#">
-                                                <img src="assets/images/products/single/2-thumb.jpg" alt="product desc" />
-                                            </a>
-                                        </div>
-                                    </div>
-
-                                    <div className="details-filter-row details-row-size">
-                                        <label htmlFor="size">Size:</label>
-                                        <div className="select-custom">
-                                            <select name="size" id="size" className="form-control">
-                                                <option value="#" selected="selected">Select a size</option>
-                                                <option value="s">Small</option>
-                                                <option value="m">Medium</option>
-                                                <option value="l">Large</option>
-                                                <option value="xl">Extra Large</option>
-                                            </select>
-                                        </div>
-
-                                        <a href="#" className="size-guide"><i className="icon-th-list"></i>size guide</a>
-                                    </div>
-
-                                    <div className="details-filter-row details-row-size">
-                                        <label htmlFor="qty">Qty:</label>
+                                        <label htmlFor="qty">Quantity: </label>
                                         <div className="product-details-quantity">
-                                            <input type="number" id="qty" className="form-control" value="1" min="1" max="10" step="1" data-decimals="0" required />
+                                            <input type="number" id="qty" className="form-control" placeholder='1' min="1" max="10" step="1" data-decimals="0" required />
                                         </div>
                                     </div>
 
                                     <div className="product-details-action">
                                         <a href="#" className="btn-product btn-cart"><span>add to cart</span></a>
-
-                                        <div className="details-action-wrapper">
-                                            <a href="#" className="btn-product btn-wishlist" title="Wishlist"><span>Add to Wishlist</span></a>
-                                            <a href="#" className="btn-product btn-compare" title="Compare"><span>Add to Compare</span></a>
-                                        </div>
                                     </div>
 
                                     <div className="product-details-footer">
                                         <div className="product-cat">
                                             <span>Category:</span>
-                                            <a href="#">Women</a>,
-                                            <a href="#">Dresses</a>,
-                                            <a href="#">Yellow</a>
+                                            <a href="#">{productDetail?.category}</a>
                                         </div>
 
                                         <div className="social-icons social-icons-sm">
@@ -190,103 +162,60 @@ function ProductDetail(props) {
                                 <a className="nav-link" id="product-shipping-link" data-toggle="tab" href="#product-shipping-tab" role="tab" aria-controls="product-shipping-tab" aria-selected="false">Shipping & Returns</a>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" id="product-review-link" data-toggle="tab" href="#product-review-tab" role="tab" aria-controls="product-review-tab" aria-selected="false">Reviews (2)</a>
+                                <a className="nav-link" id="product-review-link" data-toggle="tab" href="#product-review-tab" role="tab" aria-controls="product-review-tab" aria-selected="false">Reviews ({productDetail?.feedbacks?.length})</a>
                             </li>
                         </ul>
                         <div className="tab-content">
                             <div className="tab-pane fade show active" id="product-desc-tab" role="tabpanel" aria-labelledby="product-desc-link">
                                 <div className="product-desc-content">
                                     <h3>Product Information</h3>
-                                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros. Nullam malesuada erat ut turpis. Suspendisse urna viverra non, semper suscipit, posuere a, pede. Donec nec justo eget felis facilisis fermentum. Aliquam porttitor mauris sit amet orci. Aenean dignissim pellentesque felis. Phasellus ultrices nulla quis nibh. Quisque a lectus. Donec consectetuer ligula vulputate sem tristique cursus. </p>
-                                    <ul>
-                                        <li>Nunc nec porttitor turpis. In eu risus enim. In vitae mollis elit. </li>
-                                        <li>Vivamus finibus vel mauris ut vehicula.</li>
-                                        <li>Nullam a magna porttitor, dictum risus nec, faucibus sapien.</li>
-                                    </ul>
-
-                                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros. Nullam malesuada erat ut turpis. Suspendisse urna viverra non, semper suscipit, posuere a, pede. Donec nec justo eget felis facilisis fermentum. Aliquam porttitor mauris sit amet orci. Aenean dignissim pellentesque felis. Phasellus ultrices nulla quis nibh. Quisque a lectus. Donec consectetuer ligula vulputate sem tristique cursus. </p>
+                                    <p>{productDetail?.decription}</p>
                                 </div>
                             </div>
                             <div className="tab-pane fade" id="product-info-tab" role="tabpanel" aria-labelledby="product-info-link">
                                 <div className="product-desc-content">
                                     <h3>Information</h3>
-                                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros. Nullam malesuada erat ut turpis. Suspendisse urna viverra non, semper suscipit, posuere a, pede. Donec nec justo eget felis facilisis fermentum. Aliquam porttitor mauris sit amet orci. </p>
-
-                                    <h3>Fabric & care</h3>
-                                    <ul>
-                                        <li>Faux suede fabric</li>
-                                        <li>Gold tone metal hoop handles.</li>
-                                        <li>RI branding</li>
-                                        <li>Snake print trim interior </li>
-                                        <li>Adjustable cross body strap</li>
-                                        <li> Height: 31cm; Width: 32cm; Depth: 12cm; Handle Drop: 61cm</li>
-                                    </ul>
-
-                                    <h3>Size</h3>
-                                    <p>one size</p>
                                 </div>
                             </div>
                             <div className="tab-pane fade" id="product-shipping-tab" role="tabpanel" aria-labelledby="product-shipping-link">
                                 <div className="product-desc-content">
                                     <h3>Delivery & returns</h3>
-                                    <p>We deliver to over 100 countries around the world. For full details of the delivery options we offer, please view our <a href="#">Delivery information</a><br />
-                                        We hope you’ll love every purchase, but if you ever need to return an item you can do so within a month of receipt. For full details of how to make a return, please view our <a href="#">Returns information</a></p>
+
                                 </div>
                             </div>
                             <div className="tab-pane fade" id="product-review-tab" role="tabpanel" aria-labelledby="product-review-link">
                                 <div className="reviews">
-                                    <h3>Reviews (2)</h3>
-                                    <div className="review">
-                                        <div className="row no-gutters">
-                                            <div className="col-auto">
-                                                <h4><a href="#">Samanta J.</a></h4>
-                                                <div className="ratings-container">
-                                                    <div className="ratings">
-                                                        <div className="ratings-val" style={{ width: '80%' }}></div>
+                                    <h3>Reviews ({productDetail?.feedbacks?.length || 0})</h3>
+                                    {productDetail?.feedbacks.map((feedback, index) => {
+                                        return (
+                                            <div className="review">
+                                                <div className="row no-gutters">
+                                                    <div className="col-auto">
+                                                        <h4><a href="#">{feedback?.userName}</a></h4>
+                                                        <div className="ratings-container">
+                                                            <div className="ratings">
+                                                                <div className="ratings-val" style={{ width: `${feedback.star}*20%` }}></div>
+                                                            </div>
+                                                        </div>
+                                                        <span className="review-date">6 days ago</span>
+                                                    </div>
+                                                    <div className="col">
+                                                        <h4>Sản phẩm: {feedback?.product}</h4>
+
+                                                        <div className="review-content">
+                                                            <p>{feedback?.comment || "Khách hàng không viết gì"}</p>
+                                                        </div>
+
+                                                        <div className="review-action">
+                                                            <a href="#"><i className="icon-thumbs-up"></i>Helpful (0)</a>
+                                                            <a href="#"><i className="icon-thumbs-down"></i>Unhelpful (0)</a>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <span className="review-date">6 days ago</span>
                                             </div>
-                                            <div className="col">
-                                                <h4>Good, perfect size</h4>
+                                        )
+                                    })}
 
-                                                <div className="review-content">
-                                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus cum dolores assumenda asperiores facilis porro reprehenderit animi culpa atque blanditiis commodi perspiciatis doloremque, possimus, explicabo, autem fugit beatae quae voluptas!</p>
-                                                </div>
-
-                                                <div className="review-action">
-                                                    <a href="#"><i className="icon-thumbs-up"></i>Helpful (2)</a>
-                                                    <a href="#"><i className="icon-thumbs-down"></i>Unhelpful (0)</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div className="review">
-                                        <div className="row no-gutters">
-                                            <div className="col-auto">
-                                                <h4><a href="#">John Doe</a></h4>
-                                                <div className="ratings-container">
-                                                    <div className="ratings">
-                                                        <div className="ratings-val" style={{ width: ' 100%' }}></div>
-                                                    </div>
-                                                </div>
-                                                <span className="review-date">5 days ago</span>
-                                            </div>
-                                            <div className="col">
-                                                <h4>Very good</h4>
-
-                                                <div className="review-content">
-                                                    <p>Sed, molestias, tempore? Ex dolor esse iure hic veniam laborum blanditiis laudantium iste amet. Cum non voluptate eos enim, ab cumque nam, modi, quas iure illum repellendus, blanditiis perspiciatis beatae!</p>
-                                                </div>
-
-                                                <div className="review-action">
-                                                    <a href="#"><i className="icon-thumbs-up"></i>Helpful (0)</a>
-                                                    <a href="#"><i className="icon-thumbs-down"></i>Unhelpful (0)</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -334,7 +263,7 @@ function ProductDetail(props) {
                                 </div>
 
                                 <div className="product-action">
-                                    <a href="#" className="btn-product btn-cart"><span>add to cart</span></a>
+                                    <a onClick={() => { handleAddToCart(productDetail) }} className="btn-product btn-cart"><span>add to cart</span></a>
                                 </div>
                             </figure>
 

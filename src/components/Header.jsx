@@ -108,10 +108,13 @@ function Header(props) {
                 <div>
                   <a style={{ color: 'white' }}>Bạn chưa đăng nhập!</a>
                 </div>
-              ) : (<div>
-                <a style={{ color: 'white' }}>Xin chào, {name}</a> <br></br>
-                <a style={{ color: 'white' }} onClick={handleLogout}>Logout</a>
-              </div>)}
+              ) : (
+                <div>
+                  <a style={{ color: 'white' }}>Xin chào, {name}</a> <br></br>
+
+                  <a style={{ color: 'white' }} onClick={handleLogout}>Logout</a>
+                </div>
+              )}
             </div>
             <div className="dropdown cart-dropdown">
               <a href="#" className="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
@@ -173,7 +176,7 @@ function Header(props) {
                   Browse Categories
                 </a>
 
-                <div className="dropdown-menu">
+                {/* <div className="dropdown-menu">
                   <nav className="side-nav">
                     <ul className="menu-vertical sf-arrows sf-js-enabled" style={{ touchAction: 'pan-y' }}>
                       <li className="megamenu-container">
@@ -472,7 +475,7 @@ function Header(props) {
                       <li><a href="#"><i className="icon-gift"></i>Gift Ideas</a></li>
                     </ul>
                   </nav>
-                </div>
+                </div> */}
               </div>
             </div>
             <div className="header-center">

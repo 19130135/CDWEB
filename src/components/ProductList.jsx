@@ -6,6 +6,7 @@ import { increment, selectProducts } from '../features/counter/productsSlice';
 import { useNavigate } from "react-router-dom";
 import { addToCart, selectCartProducts } from '../features/counter/cartProductsSlice';
 import { selectCategories } from '../features/counter/categoriesSlice';
+import Header from './Header';
 
 
 ProductList.propTypes = {
@@ -27,21 +28,25 @@ function ProductList(props) {
     // console.log(listProducts);
 
     const handleAddToCart = async (item) => {
-        console.log("---item", item)
-        const response = await axios({
-            method: "POST",
-            url: "http://localhost:8080/api/order/cartproduct",
-            data: {
-                product: {
-                    id: item.id,
+        if (!localStorage.getItem('token')) {
+            alert("Bạn phải đăng nhập trước khi sử dụng tính năng này!");
+        } else {
+            console.log("---item", item)
+            const response = await axios({
+                method: "POST",
+                url: "http://localhost:8080/api/order/cartproduct",
+                data: {
+                    product: {
+                        id: item.id,
+                    },
+                    quantity: 1,
                 },
-                quantity: item.quantity,
-            }
-        })
-        console.log(response)
-
-
-        alert();
+                headers: {
+                    'Authorization': `Basic ${localStorage.getItem('token')}`,
+                },
+            })
+            console.log("Added !" + response)
+        }
     }
 
     const fetchAPIProducts = async () => {
@@ -87,7 +92,8 @@ function ProductList(props) {
                             <div className="toolbox">
                                 <div className="toolbox-left">
                                     <div className="toolbox-info">
-                                        Showing <span>9 of 56</span> Products
+                                        Showing <span>{listProducts?.length
+                                            || 0}</span> Products
                                     </div>
                                 </div>
 
@@ -251,7 +257,7 @@ function ProductList(props) {
                                     <div className="collapse show" id="widget-1">
                                         <div className="widget-body">
                                             <div className="filter-items filter-items-count">
-                                            {listCategories.map((categories, index) => {
+                                                {listCategories.map((categories, index) => {
                                                     return (
                                                         <div className="filter-item">
                                                             <div className="custom-control custom-checkbox">

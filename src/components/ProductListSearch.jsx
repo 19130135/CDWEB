@@ -109,7 +109,7 @@ function ProductListSearch(props) {
                             <div className="toolbox">
                                 <div className="toolbox-left">
                                     <div className="toolbox-info">
-                                        Showing <span>{listSearchedProducts.length}</span> Products
+                                        Showing <span>{listSearchedProducts?.length || 0}</span> Products
                                     </div>
                                 </div>
 
