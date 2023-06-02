@@ -14,20 +14,19 @@ export const cartProductsSlice = createSlice({
       // which detects changes to a "draft state" and produces a brand new
       // immutable state based off those changes
       let cartProductsUpdate = [...state.cartProducts];
-      const index = cartProductsUpdate.findIndex(data => data.id === action.payload.item.id)
+      const index = cartProductsUpdate.findIndex(
+        (data) => data.id === action.payload.item.id
+      );
       // findIndex return -1: not duplicate
       // return index : duplicate this item in array
-      if(index===-1){
+      if (index === -1) {
         // item chua co trong array cartProducts => push item vao cartProducts[]
         cartProductsUpdate.push(action.payload.item);
       } else {
         // item add da co trong array cartProducts => quantity +1
-        
       }
-    console.log("--cart",cartProductsUpdate)
+      console.log("--cart", cartProductsUpdate);
       state.cartProducts = cartProductsUpdate;
-      return state;
-      
     },
     decrement: (state) => {
       state.value -= 1;

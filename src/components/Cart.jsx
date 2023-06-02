@@ -1,11 +1,41 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
+import { addToCart, selectCartProducts } from '../features/counter/cartProductsSlice';
 
 Cart.propTypes = {
 
 };
 
 function Cart(props) {
+
+    const dispatch = useDispatch();
+    const listCartProducts = useSelector(selectCartProducts);
+    const fetchCartProducts = async () => {
+        try {
+            console.log("Loading API ...");
+            const response = await axios({
+                method: "GET",
+                url: "http://localhost:8080/api/order/cartproducts",
+                header: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                }
+            })
+            console.log("---res", response.status);
+            if (response.data) {
+                dispatch(addToCart({
+                    cartProducts: response.data
+                }))
+            }
+        } catch (err) {
+            console.log("----err", err)
+        }
+    }
+    useEffect(() => {
+        fetchCartProducts();
+    }, [])
+
     return (
         <body>
             <div className="page-wrapper">
@@ -43,52 +73,34 @@ function Cart(props) {
                                             </thead>
 
                                             <tbody>
-                                                <tr>
-                                                    <td className="product-col">
-                                                        <div className="product">
-                                                            <figure className="product-media">
-                                                                <a href="#">
-                                                                    <img src="assets/images/products/table/product-1.jpg" alt="Product image" />
-                                                                </a>
-                                                            </figure>
+                                                {listCartProducts?.map((product, index) => {
+                                                    return (
+                                                        <tr>
+                                                            <td className="product-col">
+                                                                <div className="product">
+                                                                    <figure className="product-media">
+                                                                        <a href="#">
+                                                                            <img src="assets/images/products/table/product-1.jpg" alt="Product image" />
+                                                                        </a>
+                                                                    </figure>
 
-                                                            <h3 className="product-title">
-                                                                <a href="#">Beige knitted elastic runner shoes</a>
-                                                            </h3>
-                                                        </div>
-                                                    </td>
-                                                    <td className="price-col">$84.00</td>
-                                                    <td className="quantity-col">
-                                                        <div className="cart-product-quantity">
-                                                            <input type="number" className="form-control" value="1" min="1" max="10" step="1" data-decimals="0" required />
-                                                        </div>
-                                                    </td>
-                                                    <td className="total-col">$84.00</td>
-                                                    <td className="remove-col"><button className="btn-remove"><i className="icon-close"></i></button></td>
-                                                </tr>
-                                                <tr>
-                                                    <td className="product-col">
-                                                        <div className="product">
-                                                            <figure className="product-media">
-                                                                <a href="#">
-                                                                    <img src="assets/images/products/table/product-2.jpg" alt="Product image" />
-                                                                </a>
-                                                            </figure>
+                                                                    <h3 className="product-title">
+                                                                        <a href="#">{product?.name}</a>
+                                                                    </h3>
+                                                                </div>
+                                                            </td>
+                                                            <td className="price-col">{product?.price} VND</td>
+                                                            <td className="quantity-col">
+                                                                <div className="cart-product-quantity">
+                                                                    <input type="number" className="form-control" value={product?.quantity} min="1" max="10" step="1" data-decimals="0" required />
+                                                                </div>
+                                                            </td>
+                                                            <td className="total-col">{product?.price * product?.quantity} VND</td>
+                                                            <td className="remove-col"><button className="btn-remove"><i className="icon-close"></i></button></td>
+                                                        </tr>
+                                                    )
+                                                })}
 
-                                                            <h3 className="product-title">
-                                                                <a href="#">Blue utility pinafore denim dress</a>
-                                                            </h3>
-                                                        </div>
-                                                    </td>
-                                                    <td className="price-col">$76.00</td>
-                                                    <td className="quantity-col">
-                                                        <div className="cart-product-quantity">
-                                                            <input type="number" className="form-control" value="1" min="1" max="10" step="1" data-decimals="0" required />
-                                                        </div>
-                                                    </td>
-                                                    <td className="total-col">$76.00</td>
-                                                    <td className="remove-col"><button className="btn-remove"><i className="icon-close"></i></button></td>
-                                                </tr>
                                             </tbody>
                                         </table>
 

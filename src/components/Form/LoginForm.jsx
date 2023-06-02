@@ -41,6 +41,7 @@ const LoginForm = () => {
                 handleNavigate();
                 localStorage.setItem('token', response.data.token);
                 localStorage.setItem('username', response.data.name);
+                localStorage.setItem('role', response.data.role);
                 console.log("---data", response.data)
             }
             console.log(response)

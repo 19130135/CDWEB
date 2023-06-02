@@ -47,11 +47,6 @@ function ProductListSearch(props) {
         console.log("----id", id)
         navigate(`/productDetail/${id}`);
     }
-
-    const handleAddToCart = (id) => {
-        // console.log("---id", id)
-
-    }
     // Lay params sau url
     const { searchValue } = useParams();
     console.log(searchValue);
@@ -60,6 +55,29 @@ function ProductListSearch(props) {
     const listSearchedProducts = useSelector(selectSearchedProducts);
     console.log(listSearchedProducts);
     const dispatch = useDispatch()
+
+    const handleAddToCart = async (item) => {
+        if (!localStorage.getItem('token')) {
+            alert("Bạn phải đăng nhập trước khi sử dụng tính năng này!");
+        } else {
+            console.log("---item", item)
+            const response = await axios({
+                method: "POST",
+                url: "http://localhost:8080/api/order/cartproduct",
+                data: {
+                    product: {
+                        id: item.id,
+                    },
+                    quantity: 1,
+                },
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                },
+            })
+            console.log("Added !" + response)
+        }
+    }
+
     const searchAPI = async () => {
         // e.preventDefault()
         //
@@ -204,7 +222,7 @@ function ProductListSearch(props) {
                                                             <a href="#" className="btn-product btn-compare" title="Compare"><span>compare</span></a>
                                                         </div>
 
-                                                        <a onClick={() => { handleAddToCart() }} className="btn-product btn-cart"><span>add to cart</span></a>
+                                                        <a onClick={() => { handleAddToCart(product) }} className="btn-product btn-cart"><span>add to cart</span></a>
                                                     </div>
                                                 </div>
 

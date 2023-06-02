@@ -28,6 +28,13 @@ function Header(props) {
   const handleNavigate = () => {
     navigate("/home");
   }
+  const handleNavigate1 = () => {
+    if (!localStorage.getItem('token')) {
+      alert("Bạn cần phải đăng nhập để sử dụng chức năng này!")
+    } else {
+      navigate("/cart");
+    }
+  }
 
   let check = false;
   const checkLogin = async () => {
@@ -117,7 +124,7 @@ function Header(props) {
               )}
             </div>
             <div className="dropdown cart-dropdown">
-              <a href="#" className="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
+              <a className="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
                 <i className="icon-shopping-cart"></i>
                 <span className="cart-count">2</span>
               </a>
@@ -158,8 +165,8 @@ function Header(props) {
                 </div>
 
                 <div className="dropdown-cart-action">
-                  <a href="cart.html" className="btn btn-primary">View Cart</a>
-                  <a href="checkout.html" className="btn btn-outline-primary-2"><span>Checkout</span><i className="icon-long-arrow-right"></i></a>
+                  <a onClick={() => { handleNavigate1() }} className="btn btn-primary">View Cart</a>
+                  <a className="btn btn-outline-primary-2"><span>Checkout</span><i className="icon-long-arrow-right"></i></a>
                 </div>
               </div>
             </div>
