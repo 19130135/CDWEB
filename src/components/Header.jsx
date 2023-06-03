@@ -131,29 +131,29 @@ function Header(props) {
 
               <div className="dropdown-menu dropdown-menu-right">
                 <div className="dropdown-cart-products">
-                  {listCartProducts?.map((product, index) => {
+                  {/* {listCartProducts?.map((product, index) => {
                     return (
                       <div className="product">
                         <div className="product-cart-details">
                           <h4 className="product-title">
-                            <a>{product.name}</a>
+                            <a>{product?.name}</a>
                           </h4>
 
                           <span className="cart-product-info">
                             <span className="cart-product-qty">1</span>
-                            x {product.price}
+                            x {product?.price}
                           </span>
                         </div>
 
                         <figure className="product-image-container">
-                          <a href="product.html" className="product-image">
-                            <img src={product.images[0].url} alt="product" />
+                          <a className="product-image">
+                            <img src={product?.images[0]?.url} alt="product" />
                           </a>
                         </figure>
-                        <a href="#" className="btn-remove" title="Remove Product"><i className="icon-close"></i></a>
+                        <a className="btn-remove" title="Remove Product"><i className="icon-close"></i></a>
                       </div>
                     )
-                  })}
+                  })} */}
 
 
                 </div>

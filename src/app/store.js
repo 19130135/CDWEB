@@ -9,7 +9,7 @@ const store = configureStore({
     products: productsSlice,
     categories: categoriesSlice,
     accountSlice: accountSlice,
-    cartProductsSlice: cartProductsSlice,
+    cartList: cartProductsSlice,
   },
 });
 

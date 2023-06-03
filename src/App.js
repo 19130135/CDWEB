@@ -17,12 +17,14 @@ import axios from "axios";
 import Category from "./components/Category";
 import ProductListFilter from "./components/ProductListFilter";
 import ProductListSearch from "./components/ProductListSearch";
+import RegisterSuccess from "./components/RegisterSuccess";
+import RegisterFailed from "./components/RegisterFailed";
 
 function App() {
   return (
     <div>
       <Header />
-      
+
       <Routes>
         <Route exact path="/" element={<Index />} />
         <Route path="/home" element={<Index />} />
@@ -35,7 +37,12 @@ function App() {
         <Route path="/productList" element={<ProductList />} />
         <Route path="/category" element={<Category />} />
         <Route path="/productList/:category" element={<ProductListFilter />} />
-        <Route path="/productList/search/:searchValue" element={<ProductListSearch />} />
+        <Route
+          path="/productList/search/:searchValue"
+          element={<ProductListSearch />}
+        />
+        <Route path="register/success" element={<RegisterSuccess />} />
+        <Route path="register/failed" element={<RegisterFailed />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
       <Footer />

@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
-import { addToCart, selectCartProducts } from '../features/counter/cartProductsSlice';
+import { cartProducts, selectCartProducts } from '../features/counter/cartProductsSlice';
 
 Cart.propTypes = {
 
@@ -12,25 +12,62 @@ function Cart(props) {
 
     const dispatch = useDispatch();
     const listCartProducts = useSelector(selectCartProducts);
-    const fetchCartProducts = async () => {
-        try {
-            console.log("Loading API ...");
-            const response = await axios({
-                method: "GET",
-                url: "http://localhost:8080/api/order/cartproducts",
-                header: {
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
+
+    const [quantity, setQuantity] = useState();
+    const [active, setActive] = useState(null);
+    let totalPriceProduct = 0;
+    const tdRef = useRef(null);
+    // if (tdRef.current) {
+    //     tdRef.current.name = element.product.id;
+    // }
+
+    const handleChangeQuantity = (e) => {
+        let id = e.target.name;
+        setActive(id);
+        listCartProducts.forEach(element => {
+            if (element.product.id == id) {
+                console.log(e.target.name)
+                if (e.target.name == element.product.id) {
+                    console.log(element.product.id);
+
+                    let newValue = parseInt(e.target.value);
+                    setQuantity(newValue);
+                    totalPrice1Product(element.product.id, newValue)
+                } else {
+                    setQuantity(element.quantity);
                 }
-            })
-            console.log("---res", response.status);
-            if (response.data) {
-                dispatch(addToCart({
-                    cartProducts: response.data
-                }))
+                // console.log(newValue)
             }
-        } catch (err) {
-            console.log("----err", err)
+        });
+        // console.log("---targetingField", tdRef.current.name)
+        // console.log(e.target.name, newValue);
+
+    }
+    const totalPrice1Product = (tdRef, price, quantity) => {
+        // console.log("---targetTotalField", e.target.name);
+        return price * quantity;
+    }
+    console.log("---idActive", active);
+
+    console.log("---quantityNow", quantity);
+    let price1Product = 0;
+
+    const fetchCartProducts = async () => {
+        console.log("Loading API ...");
+        const response = await axios({
+            method: "GET",
+            url: "http://localhost:8080/api/order/cartproducts",
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`,
+            }
+        })
+        console.log("---res", response);
+        if (response.data) {
+            dispatch(cartProducts({
+                cartProducts: response.data
+            }))
         }
+        console.log(cartProducts)
     }
     useEffect(() => {
         fetchCartProducts();
@@ -73,29 +110,29 @@ function Cart(props) {
                                             </thead>
 
                                             <tbody>
-                                                {listCartProducts?.map((product, index) => {
+                                                {listCartProducts?.map((cartProduct, index) => {
                                                     return (
                                                         <tr>
                                                             <td className="product-col">
                                                                 <div className="product">
                                                                     <figure className="product-media">
-                                                                        <a href="#">
-                                                                            <img src="assets/images/products/table/product-1.jpg" alt="Product image" />
+                                                                        <a>
+                                                                            <img src={cartProduct?.product?.images[0]?.url} alt="Product image" />
                                                                         </a>
                                                                     </figure>
 
                                                                     <h3 className="product-title">
-                                                                        <a href="#">{product?.name}</a>
+                                                                        <a>{cartProduct?.product?.name}</a>
                                                                     </h3>
                                                                 </div>
                                                             </td>
-                                                            <td className="price-col">{product?.price} VND</td>
+                                                            <td className="price-col">{cartProduct?.product?.price} VND</td>
                                                             <td className="quantity-col">
                                                                 <div className="cart-product-quantity">
-                                                                    <input type="number" className="form-control" value={product?.quantity} min="1" max="10" step="1" data-decimals="0" required />
+                                                                    <input name={cartProduct?.product?.id} onChange={handleChangeQuantity} type="number" n className="form-control" placeholder={cartProduct?.quantity} min="1" step="1" data-decimals="0" required />
                                                                 </div>
                                                             </td>
-                                                            <td className="total-col">{product?.price * product?.quantity} VND</td>
+                                                            <td ref={tdRef} name={cartProduct?.product?.id} className="total-col">{(e) => { totalPrice1Product(cartProduct?.product?.price, quantity) }} VND</td>
                                                             <td className="remove-col"><button className="btn-remove"><i className="icon-close"></i></button></td>
                                                         </tr>
                                                     )
@@ -127,7 +164,7 @@ function Cart(props) {
                                                 <tbody>
                                                     <tr className="summary-subtotal">
                                                         <td>Subtotal:</td>
-                                                        <td>$160.00</td>
+                                                        <td>...VND</td>
                                                     </tr>
                                                     <tr className="summary-shipping">
                                                         <td>Shipping:</td>

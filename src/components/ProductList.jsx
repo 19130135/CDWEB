@@ -23,7 +23,6 @@ function ProductList(props) {
     }
     const dispatch = useDispatch();
     const listProducts = useSelector(selectProducts);
-    const listCartProducts = useSelector(selectCartProducts);
 
     // console.log(listProducts);
 
@@ -65,9 +64,6 @@ function ProductList(props) {
         fetchAPIProducts();
     }, [])
 
-
-
-
     return (
         <main className="main">
             <div className="page-header text-center" style={{ backgroundImage: ' url(assets/images/page-header-bg.jpg)' }}>
@@ -92,8 +88,7 @@ function ProductList(props) {
                             <div className="toolbox">
                                 <div className="toolbox-left">
                                     <div className="toolbox-info">
-                                        Showing <span>{listProducts?.length
-                                            || 0}</span> Products
+                                        Showing <span>{listProducts?.length || 0}</span> Products
                                     </div>
                                 </div>
 
@@ -207,7 +202,7 @@ function ProductList(props) {
                                                         <div className="product-nav product-nav-thumbs">
                                                             {product.images.map((image, index) => {
                                                                 return (
-                                                                    <a href="#" className="active">
+                                                                    <a className="active">
                                                                         <img src={image.url} alt="product desc" />
                                                                     </a>
                                                                 )
