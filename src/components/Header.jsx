@@ -237,17 +237,6 @@ function Header(props) {
                           </div>
                         </div>
 
-                        <div className="col-md-4">
-                          <div className="banner banner-overlay">
-                            <a href="category.html" className="banner banner-menu">
-                              <img src="assets/images/menu/banner-1.jpg" alt="Banner" />
-
-                              <div className="banner-content banner-content-top">
-                                <div className="banner-title text-white">Last <br />Chance<br /><span><strong>Sale</strong></span></div>
-                              </div>
-                            </a>
-                          </div>
-                        </div>
                       </div>
                     </div>
                   </li>
