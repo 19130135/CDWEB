@@ -187,7 +187,7 @@ function ProductListFilter(props) {
 
                                 {listFilteredProducts?.map((product, index) => {
                                     return (
-                                        <div className="product product-list">
+                                        <div key={index} className="product product-list">
                                             <div className="row">
                                                 <div className="col-6 col-lg-3">
                                                     <figure className="product-media">
@@ -236,7 +236,7 @@ function ProductListFilter(props) {
                                                         <div className="product-nav product-nav-thumbs">
                                                             {product.images.map((image, index) => {
                                                                 return (
-                                                                    <a className="active">
+                                                                    <a key={index} className="active">
                                                                         <img src={image.url} alt="product desc" />
                                                                     </a>
                                                                 )
@@ -288,7 +288,7 @@ function ProductListFilter(props) {
                                             <div className="filter-items filter-items-count">
                                                 {listCategories.map((categories, index) => {
                                                     return (
-                                                        <div className="filter-item">
+                                                        <div key={index} className="filter-item">
                                                             <div className="custom-control custom-checkbox">
                                                                 <input type="checkbox" className="custom-control-input" id="cat-1" />
                                                                 <label className="custom-control-label" htmlFor="cat-1">{categories.name}</label>

@@ -173,15 +173,11 @@ function ProductList(props) {
                                                         </div>
                                                         <div className="ratings-container">
                                                             <div className="ratings">
-                                                                <div className="ratings-val" style={{ width: ' 20%' }}></div>
+                                                                <div className="ratings-val" style={{ width: ' 80%' }}></div>
                                                             </div>
-                                                            <span className="ratings-text">( 2 Reviews )</span>
                                                         </div>
 
-                                                        <div className="product-action">
-                                                            <a href="popup/quickView.html" className="btn-product btn-quickview" title="Quick view"><span>quick view</span></a>
-                                                            <a href="#" className="btn-product btn-compare" title="Compare"><span>compare</span></a>
-                                                        </div>
+                                                        
 
                                                         <button onClick={() => { handleAddToCart(product) }} className="btn-product btn-cart"><span>add to cart</span></button>
                                                     </div>
@@ -202,7 +198,7 @@ function ProductList(props) {
                                                         <div className="product-nav product-nav-thumbs">
                                                             {product.images.map((image, index) => {
                                                                 return (
-                                                                    <a className="active">
+                                                                    <a key={index} className="active">
                                                                         <img src={image.url} alt="product desc" />
                                                                     </a>
                                                                 )
@@ -254,7 +250,7 @@ function ProductList(props) {
                                             <div className="filter-items filter-items-count">
                                                 {listCategories.map((categories, index) => {
                                                     return (
-                                                        <div className="filter-item">
+                                                        <div key={index} className="filter-item">
                                                             <div className="custom-control custom-checkbox">
                                                                 <input type="checkbox" className="custom-control-input" id="cat-1" />
                                                                 <label className="custom-control-label" htmlFor="cat-1">{categories.name}</label>

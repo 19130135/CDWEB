@@ -92,7 +92,7 @@ function ProductDetail(props) {
                                         <div id="product-zoom-gallery" className="product-image-gallery">
                                             {productDetail?.images?.map((image, index) => {
                                                 return (
-                                                    <a className="product-gallery-item active" data-image={image.url} data-zoom-image={image.url}>
+                                                    <a key={index} className="product-gallery-item active" data-image={image.url} data-zoom-image={image.url}>
                                                         <img src={image.url} alt="product side" />
                                                     </a>
                                                 )

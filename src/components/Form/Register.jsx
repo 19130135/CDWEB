@@ -41,10 +41,10 @@ const Register = () => {
                 }
             })
             console.log(response)
-            registerSuccess();
+            alert("Đã gửi email xác nhận đăng kí tài khoản! Vui lòng kiểm tra email của bạn!");
         } catch (err) {
             if (err.code == "ERR_BAD_REQUEST") {
-                registerFailed();
+                alert("Email bạn đang dùng để đăng kí đã được đăng kí trước bởi 1 tài khoản khác! Vui lòng kiểm tra lại.")
             }
         }
     }

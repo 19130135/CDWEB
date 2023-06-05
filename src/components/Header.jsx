@@ -19,15 +19,19 @@ function Header(props) {
   const [products, setProducts] = useState("");
   const listCartProducts = useSelector(selectCartProducts);
 
-  const handleLogout = async () => {
-    localStorage.clear();
-    handleNavigate();
-  }
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsOpen(!isOpen);
+  };
+
+
 
   const navigate = useNavigate();
   const handleNavigate = () => {
     navigate("/home");
   }
+
   const handleNavigate1 = () => {
     if (!localStorage.getItem('token')) {
       alert("Bạn cần phải đăng nhập để sử dụng chức năng này!")
@@ -36,6 +40,13 @@ function Header(props) {
     }
   }
 
+  const handleNavigate2 = () => {
+    navigate("/account");
+  }
+  const handleLogout = async () => {
+    localStorage.clear();
+    handleNavigate();
+  }
   let check = false;
   const checkLogin = async () => {
     console.log(123)
@@ -118,8 +129,15 @@ function Header(props) {
               ) : (
                 <div>
                   <a style={{ color: 'white' }}>Xin chào, {name}</a> <br></br>
-
-                  <a style={{ color: 'white' }} onClick={handleLogout}>Logout</a>
+                  <div class="dropdown">
+                    <button class="dropbtn">Tùy chọn
+                      <i class="fa fa-caret-down"></i>
+                    </button>
+                    <div class="dropdown-content">
+                      <a onClick={() => { handleNavigate2() }}>Thông tin cá nhân</a>
+                      <a onClick={() => { handleLogout() }}>Log out</a>
+                    </div>
+                  </div>
                 </div>
               )}
             </div>

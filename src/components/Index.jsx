@@ -18,7 +18,7 @@ function Index(props) {
         console.log("----id", id)
         navigate(`/productDetail/${id}`);
     }
-    
+
 
     // console.log(listProducts);
     const fetchAPIProducts = async () => {
@@ -214,7 +214,7 @@ function Index(props) {
                                 <div className="col-lg-4 col-md-4">
                                     {listProducts?.slice(0, 1).map((product, index) => {
                                         return (
-                                            <div className="product-lg">
+                                            <div key={index} className="product-lg">
                                                 <figure className="product-media">
                                                     <span className="product-label label-limited">limited time sale</span>
                                                     <a href="product.html">
@@ -242,9 +242,9 @@ function Index(props) {
                                     <div className="tab-content">
                                         <div className="tab-pane fade show active" id="tab-featured" role="tabpanel" aria-labelledby="tab-featured-link">
                                             <div className="row products all">
-                                                {listProducts?.map((product, index) => {
+                                                {listProducts?.slice(1, 7).map((product, index) => {
                                                     return (
-                                                        <div className="col-lg-4 col-6">
+                                                        <div key={index} className="col-lg-4 col-6">
                                                             <div className="product product-3 text-center">
                                                                 <figure className="product-media">
                                                                     <span className="product-label label-sale">Sale</span>
@@ -705,9 +705,9 @@ function Index(props) {
                         </div>
 
                         <div className="row products">
-                            {listProducts.map((product, index) => {
+                            {listProducts?.slice(1, 9).map((product, index) => {
                                 return (
-                                    <div className="col-6 col-md-4 col-lg-3 col-xl-5col">
+                                    <div key={index} className="col-6 col-md-4 col-lg-3 col-xl-5col">
                                         <div className="product product-3 text-center">
                                             <figure className="product-media">
                                                 <span className="product-label label-sale">Sale</span>
@@ -768,116 +768,7 @@ function Index(props) {
                             <a className="link" href="#">See All Posts</a>
                         </div>
 
-                        <div className="owl-carousel owl-simple mb-4" data-toggle="owl"
-                            data-owl-options='{
-                        "nav": true,
-                        "dots": false,
-                        "items": 3,
-                        "margin": 20,
-                        "loop": false,
-                        "responsive": {
-                            "0": {
-                                "items":1,
-                                "dots":true
-                            },
-                            "520": {
-                                "items":2,
-                                "dots":true
-                            },
-                            "768": {
-                                "items":3
-                            }
-                        }
-                    }'>
-                            <article className="entry">
-                                <figure className="entry-media">
-                                    <a href="single.html">
-                                        <img src="assets/images/demos/demo-22/post/post-1.jpg" alt="image desc" />
-                                    </a>
-                                </figure>
 
-                                <div className="entry-body text-center">
-                                    <div className="entry-meta">
-                                        <a href="#">Nov 22, 2018</a>, 0 Comments
-                                    </div>
-
-                                    <h3 className="entry-title">
-                                        <a href="single.html">Sed adipiscing ornare.</a>
-                                    </h3>
-
-                                    <div className="entry-content">
-                                        <a href="single.html" className="read-more">Continue Reading</a>
-                                    </div>
-                                </div>
-                            </article>
-
-                            <article className="entry">
-                                <figure className="entry-media">
-                                    <a href="single.html">
-                                        <img src="assets/images/demos/demo-22/post/post-2.jpg" alt="image desc" />
-                                    </a>
-                                </figure>
-
-                                <div className="entry-body text-center">
-                                    <div className="entry-meta">
-                                        <a href="#">Nov 22, 2018</a>, 0 Comments
-                                    </div>
-
-                                    <h3 className="entry-title">
-                                        <a href="single.html">Aenean dignissim pellentesque.</a>
-                                    </h3>
-
-                                    <div className="entry-content">
-                                        <a href="single.html" className="read-more">Continue Reading</a>
-                                    </div>
-                                </div>
-                            </article>
-
-                            <article className="entry">
-                                <figure className="entry-media">
-                                    <a href="single.html">
-                                        <img src="assets/images/demos/demo-22/post/post-3.jpg" alt="image desc" />
-                                    </a>
-                                </figure>
-
-                                <div className="entry-body text-center">
-                                    <div className="entry-meta">
-                                        <a href="#">Nov 22, 2018</a>, 2 Comments
-                                    </div>
-
-                                    <h3 className="entry-title">
-                                        <a href="single.html">Quisque volutpat mattis.</a>
-                                    </h3>
-
-                                    <div className="entry-content">
-                                        <a href="single.html" className="read-more">Continue Reading</a>
-                                    </div>
-                                </div>
-                            </article>
-
-                            <article className="entry">
-                                <figure className="entry-media">
-                                    <a href="single.html">
-                                        <img src="assets/images/demos/demo-22/post/post-2.jpg" alt="image desc" />
-                                    </a>
-                                </figure>
-
-                                <div className="entry-body text-center">
-                                    <div className="entry-meta">
-                                        <a href="#">Nov 22, 2018</a>, 0 Comments
-                                    </div>
-
-                                    <h3 className="entry-title">
-                                        <a href="single.html">Aenean dignissim pellentesque.</a>
-                                    </h3>
-
-                                    <div className="entry-content">
-                                        <a href="single.html" className="read-more">Continue Reading</a>
-                                    </div>
-                                </div>
-                            </article>
-
-                        </div>
 
                     </div>
 

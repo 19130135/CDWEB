@@ -1,11 +1,59 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { useNavigate } from 'react-router';
+import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
+import { orderModal, ordersInfo, selectOrderModal, selectOrdersInfo } from '../features/counter/orderSlice';
+import ModalDetailItem from './ModalDetailItem';
 
 MyAccount.propTypes = {
 
 };
 
+
 function MyAccount(props) {
+    const navigate = useNavigate();
+    const handleNavigate = () => {
+        navigate("/home");
+    }
+    const handleLogout = () => {
+        localStorage.clear();
+        handleNavigate();
+    }
+    // const [isOpen, setIsOpen] = useState(false);
+    let check = false;
+    const [showModal, setShowModal] = useState(false);
+
+    const openModal = (billDetail) => {
+        setShowModal(true);
+        dispatch(orderModal({
+                billDetails: { billDetail },
+        }))
+    };
+
+
+    const listOrders = useSelector(selectOrdersInfo);
+    // console.log(listOrders)
+    const dispatch = useDispatch();
+    const fetchOrders = async () => {
+        const response = await axios({
+            method: 'GET',
+            url: 'http://localhost:8080/api/order/history',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`,
+            }
+        })
+        // console.log(response.data);
+        if (response.data) {
+            dispatch(ordersInfo({
+                orders: response.data
+            }))
+        }
+    }
+    useEffect(() => {
+        fetchOrders();
+    }, [])
+
     return (
         <main className="main">
             <div className="page-header text-center" style={{ backgroundImage: ' url(assets/images/page-header-bg.jpg)' }}>
@@ -30,22 +78,20 @@ function MyAccount(props) {
                             <aside className="col-md-4 col-lg-3">
                                 <ul className="nav nav-dashboard flex-column mb-3 mb-md-0" role="tablist">
                                     <li className="nav-item">
-                                        <a className="nav-link active" id="tab-dashboard-link" data-toggle="tab" href="#tab-dashboard" role="tab" aria-controls="tab-dashboard" aria-selected="true">Dashboard</a>
+                                        <a className="nav-link active" id="tab-dashboard-link" data-toggle="tab" href="#tab-dashboard" role="tab" aria-controls="tab-dashboard" aria-selected="true">General</a>
                                     </li>
                                     <li className="nav-item">
-                                        <a className="nav-link" id="tab-orders-link" data-toggle="tab" href="#tab-orders" role="tab" aria-controls="tab-orders" aria-selected="false">Orders</a>
+                                        <a className="nav-link" id="tab-orders-link" data-toggle="tab" href="#tab-orders" role="tab" aria-controls="tab-orders" aria-selected="false">Orders History</a>
                                     </li>
-                                    <li className="nav-item">
-                                        <a className="nav-link" id="tab-downloads-link" data-toggle="tab" href="#tab-downloads" role="tab" aria-controls="tab-downloads" aria-selected="false">Downloads</a>
-                                    </li>
+
                                     <li className="nav-item">
                                         <a className="nav-link" id="tab-address-link" data-toggle="tab" href="#tab-address" role="tab" aria-controls="tab-address" aria-selected="false">Adresses</a>
                                     </li>
                                     <li className="nav-item">
                                         <a className="nav-link" id="tab-account-link" data-toggle="tab" href="#tab-account" role="tab" aria-controls="tab-account" aria-selected="false">Account Details</a>
                                     </li>
-                                    <li className="nav-item">
-                                        <a className="nav-link" href="#">Sign Out</a>
+                                    <li onClick={() => { handleLogout() }} className="nav-item">
+                                        <a className="nav-link" href="javascript:" >Sign Out</a>
                                     </li>
                                 </ul>
                             </aside>
@@ -53,13 +99,35 @@ function MyAccount(props) {
                             <div className="col-md-8 col-lg-9">
                                 <div className="tab-content">
                                     <div className="tab-pane fade show active" id="tab-dashboard" role="tabpanel" aria-labelledby="tab-dashboard-link">
-                                        <p>Hello <span className="font-weight-normal text-dark">User</span> (not <span className="font-weight-normal text-dark">User</span>? <a href="#">Log out</a>)
+                                        <p>Hello <span className="font-weight-normal text-dark">{localStorage.getItem('username')}</span> (not <span className="font-weight-normal text-dark">{localStorage.getItem('username')}</span>? <a href="javascript:" onClick={() => { handleLogout() }}>Log out</a>)
                                             <br />
-                                            From your account dashboard you can view your <a href="#tab-orders" className="tab-trigger-link link-underline">recent orders</a>, manage your <a href="#tab-address" className="tab-trigger-link">shipping and billing addresses</a>, and <a href="#tab-account" className="tab-trigger-link">edit your password and account details</a>.</p>
+                                            Từ giao diện này bạn có thể xem được lịch sử đặt hàng, thay đổi mật khẩu và đăng xuất tài khoản của bạn.</p>
                                     </div>
 
                                     <div className="tab-pane fade" id="tab-orders" role="tabpanel" aria-labelledby="tab-orders-link">
-                                        <p>No order has been made yet.</p>
+                                        <table >
+                                            <tr>
+                                                <th style={{ width: '15%' }}>Mã đơn hàng</th>
+                                                <th style={{ width: '15%' }}>Thời gian tạo đơn hàng</th>
+                                                <th style={{ width: '15%' }}>Địa chỉ giao hàng</th>
+                                                <th style={{ width: '15%' }}>Tình trạng đơn hàng</th>
+                                                <th style={{ width: '15%' }}>Chi tiết đơn hàng</th>
+                                            </tr>
+                                            {listOrders?.map((orders, index) => {
+                                                return (
+                                                    <tr key={index}>
+                                                        <td>{orders?.id}</td>
+                                                        <td>{orders?.datecreate}</td>
+                                                        <td>{orders?.address}</td>
+                                                        <td>{orders?.status}</td>
+                                                        <td><button onClick={() => { openModal(orders?.billDetails) }}>Chi tiết</button></td>
+
+                                                    </tr>
+
+                                                )
+                                            })}
+                                            <ModalDetailItem showModal={showModal} setShowModal={setShowModal} />
+                                        </table>
                                         <a href="category.html" className="btn btn-outline-primary-2"><span>GO SHOP</span><i className="icon-long-arrow-right"></i></a>
                                     </div>
 
