@@ -4,6 +4,7 @@ const initialState = {
   products: [],
   filteredProducts: [],
   searchedProducts: [],
+  allProducts: [],
 };
 
 export const productsSlice = createSlice({
@@ -20,6 +21,9 @@ export const productsSlice = createSlice({
       state.filteredProducts = action.payload.filteredProducts;
       state.searchedProducts = action.payload.searchedProducts;
     },
+    setAllProducts: (state, action) => {
+      state.allProducts = action.payload.products;
+    },
     decrement: (state) => {
       state.value -= 1;
     },
@@ -30,10 +34,12 @@ export const productsSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { increment, decrement, incrementByAmount } =
+export const { increment, setAllProducts, decrement, incrementByAmount } =
   productsSlice.actions;
 
 export const selectProducts = (state) => state.products.products;
+export const selectAllProducts = (state) => state.products.allProducts;
+
 export const selectFilteredProducts = (state) =>
   state.products.filteredProducts;
 export const selectSearchedProducts = (state) =>

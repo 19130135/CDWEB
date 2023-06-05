@@ -36,6 +36,7 @@ const LoginForm = () => {
                     password: user.password
                 },
             })
+            console.log(response.data)
             if (response.data && response.data.token) {
                 dispatch(setAccount(response.data));
                 handleNavigate();

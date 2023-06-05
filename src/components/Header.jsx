@@ -13,6 +13,7 @@ Header.propTypes = {};
 function Header(props) {
   const name = localStorage.getItem('username');
   const token = localStorage.getItem('token');
+
   const dispatch = useDispatch();
   const [category, setCategory] = useState("");
   const listCategories = useSelector(selectCategories);
@@ -43,9 +44,27 @@ function Header(props) {
   const handleNavigate2 = () => {
     navigate("/account");
   }
+  const handleNavigate3 = () => {
+    navigate("/adminPage");
+  }
   const handleLogout = async () => {
     localStorage.clear();
     handleNavigate();
+  }
+  const handleCheck = async () => {
+    console.log("Tao check login voi role ne!")
+    checkLogin();
+    checkRole();
+  }
+  let roleWut = "user";
+  const checkRole = async () => {
+    if (localStorage.getItem('role') === "ROLE_ADMIN") {
+      roleWut = "admin";
+      return;
+    } else {
+      roleWut = "user";
+      return;
+    }
   }
   let check = false;
   const checkLogin = async () => {
@@ -121,24 +140,40 @@ function Header(props) {
           <SearchInput />
 
           <div className="header-right">
-            <div onLoad={checkLogin()}>
+            <div onLoad={handleCheck()} >
               {check == false ? (
                 <div>
                   <a style={{ color: 'white' }}>Bạn chưa đăng nhập!</a>
                 </div>
               ) : (
-                <div>
-                  <a style={{ color: 'white' }}>Xin chào, {name}</a> <br></br>
-                  <div class="dropdown">
-                    <button class="dropbtn">Tùy chọn
-                      <i class="fa fa-caret-down"></i>
-                    </button>
-                    <div class="dropdown-content">
-                      <a onClick={() => { handleNavigate2() }}>Thông tin cá nhân</a>
-                      <a onClick={() => { handleLogout() }}>Log out</a>
+                roleWut == "user" ? (
+                  <div>
+                    <a style={{ color: 'white' }}>Xin chào, {name}</a> <br></br>
+                    <div class="dropdown">
+                      <button class="dropbtn">Tùy chọn
+                        <i class="fa fa-caret-down"></i>
+                      </button>
+                      <div class="dropdown-content">
+                        <a onClick={() => { handleNavigate2() }}>Thông tin cá nhân</a>
+                        <a onClick={() => { handleLogout() }}>Log out</a>
+                      </div>
                     </div>
                   </div>
-                </div>
+                ) : (
+                  <div>
+                    <a style={{ color: 'white' }}>Xin chào, {name}</a> <br></br>
+                    <div class="dropdown">
+                      <button class="dropbtn">Tùy chọn
+                        <i class="fa fa-caret-down"></i>
+                      </button>
+                      <div class="dropdown-content">
+                        <a onClick={() => { handleNavigate3() }}>Quản lý</a>
+                        <a onClick={() => { handleLogout() }}>Log out</a>
+                      </div>
+                    </div>
+                  </div>
+                )
+
               )}
             </div>
             <div className="dropdown cart-dropdown">

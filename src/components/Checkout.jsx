@@ -117,7 +117,7 @@ function Checkout(props) {
                 method: 'POST',
                 url: "http://localhost:8080/payment",
                 data: {
-                    price: 2000000,
+                    price: totalPrice,
                     shipprice: parseInt(sessionStorage.getItem('shipping')),
                     address: address,
                     phone: phone,

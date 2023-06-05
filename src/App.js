@@ -23,6 +23,8 @@ import OrderFailed from "./components/OrderFailed";
 import DetailPayment from "./components/DetailPayment";
 import RegisterResult from "./components/RegisterResult";
 import RegInfo from "./components/RegInfo";
+import AdminPage from "./components/admin/AdminPage";
+import PaymentInfo from "./components/PaymentInfo";
 
 function App() {
   return (
@@ -48,9 +50,11 @@ function App() {
         <Route path="/cart/checkout/success" element={<OrderSuccess />} />
         <Route path="/cart/checkout/failed" element={<OrderFailed />} />
         <Route path="/cart/checkout" element={<Checkout />} />
-        <Route path="/detailPayment/:detail" element={<DetailPayment />} />
+        <Route path="/detailPayment" element={<DetailPayment />} />
         <Route path="/verify/:token" element={<RegisterResult />} />
         <Route path="/regInfo" element={<RegInfo />} />
+        <Route path="/paymentInfo" element={<PaymentInfo />} />
+        <Route path="/adminPage" element={<AdminPage />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
       <Footer />
