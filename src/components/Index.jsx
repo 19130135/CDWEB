@@ -10,7 +10,9 @@ Index.propTypes = {
 };
 
 function Index(props) {
-
+    const formatNumber = (number) => {
+        return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    };
     const [listProducts, setListProducts] = useState([]);
 
     const navigate = useNavigate();

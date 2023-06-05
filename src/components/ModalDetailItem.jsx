@@ -9,6 +9,9 @@ ModalDetailItem.propTypes = {
 };
 
 function ModalDetailItem({ showModal, setShowModal }) {
+    const formatNumber = (number) => {
+        return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    };
     const customStyles = {
         content: {
             top: '50%',
@@ -44,7 +47,7 @@ function ModalDetailItem({ showModal, setShowModal }) {
                     <tr key={index}>
                         <td style={{ width: '25%' }}>{billDetail?.productName}</td>
                         <td style={{ width: '25%' }}>{billDetail?.quantity}</td>
-                        <td style={{ width: '25%' }}>{billDetail?.unit_price}</td>
+                        <td style={{ width: '25%' }}>{formatNumber(billDetail?.unit_price)}</td>
                     </tr>
                 )
             })}

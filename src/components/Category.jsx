@@ -18,26 +18,6 @@ function Category(props) {
         navigate(`/productList/${category}`);
     }
 
-    // const dispatch = useDispatch();
-    // const listProducts = useSelector(selectProducts);
-    // console.log(listProducts);
-    // const fetchAPIProducts = async () => {
-    //     const response = await axios({
-    //         method: 'GET',
-    //         url: `http://localhost:8080/api/product/category/${category}`,
-    //     })
-    //     console.log(response)
-    //     if (response.data) {
-    //         dispatch(increment({
-    //             products: response.data
-    //         }))
-    //     }
-    // }
-    // useEffect(() => {
-    //     fetchAPIProducts();
-    // }, [])
-
-
     return (
         <div>
             <main className="main">
@@ -99,7 +79,7 @@ function Category(props) {
                                                 <a className="banner-link" >
                                                     <h3 className="banner-title">Camera</h3>
                                                     <h4 className="banner-subtitle">1 Products</h4>
-                                                    <span className="banner-link-text" onClick={() => { handleNavigate("camera") }}>Shop Now</span>
+                                                    <span className="banner-link-text" onClick={() => { handleNavigate("Máy ảnh") }}>Shop Now</span>
                                                 </a>
                                             </div>
                                         </div>

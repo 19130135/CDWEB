@@ -12,6 +12,9 @@ MyAccount.propTypes = {
 
 
 function MyAccount(props) {
+    const formatNumber = (number) => {
+        return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    };
     const navigate = useNavigate();
     const handleNavigate = () => {
         navigate("/home");

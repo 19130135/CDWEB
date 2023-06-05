@@ -179,19 +179,13 @@ function Header(props) {
             <div className="dropdown cart-dropdown">
               <a className="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
                 <i className="icon-shopping-cart"></i>
-                <span className="cart-count">2</span>
+                <span className="cart-count"></span>
               </a>
 
               <div className="dropdown-menu dropdown-menu-right">
                 <div className="dropdown-cart-products">
 
 
-                </div>
-
-                <div className="dropdown-cart-total">
-                  <span>Total</span>
-
-                  <span className="cart-total-price">...</span>
                 </div>
 
                 <div className="dropdown-cart-action">

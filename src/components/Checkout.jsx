@@ -10,7 +10,9 @@ Checkout.propTypes = {
 };
 
 function Checkout(props) {
-
+    const formatNumber = (number) => {
+        return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    };
     const [selectedOption, setSelectedOption] = useState('');
 
     const [isSubmit, setIsSubmit] = useState(false);
@@ -30,7 +32,9 @@ function Checkout(props) {
     const orderFailed = () => {
         navigate("/cart/checkout/failed", { replace: true });
     }
-
+    const turnHome = () => {
+        navigate("/home", { replace: true });
+    }
     const handleSubmit = () => {
         // Xử lý logic khi submit form
         // console.log(selectedOption);
@@ -42,6 +46,7 @@ function Checkout(props) {
             console.log("OPTION 2 SELECTED");
             paymentVNPAY();
         }
+        // turnHome();
     };
     const [address, setAddress] = useState("");
 
@@ -76,6 +81,7 @@ function Checkout(props) {
     // thanh toan khi nhan hang
     const orderABill = async () => {
         // console.log("done accessed orderABill")
+        turnHome();
         try {
             const response = await axios({
                 method: 'POST',
@@ -110,7 +116,7 @@ function Checkout(props) {
 
     // Thanh toan VNPAY
     const paymentVNPAY = async () => {
-
+        turnHome();
         try {
             console.log("---totalPrice", totalPrice)
             const response = await axios({
@@ -227,21 +233,21 @@ function Checkout(props) {
                                                         return (
                                                             <tr key={index}>
                                                                 <td><a >{cartProduct?.product?.name}</a></td>
-                                                                <td>{cartProduct?.quantity * cartProduct?.product?.price}</td>
+                                                                <td>{formatNumber(cartProduct?.quantity * cartProduct?.product?.price)}</td>
                                                             </tr>
                                                         )
                                                     })}
                                                     <tr className="summary-subtotal">
                                                         <td>Subtotal:</td>
-                                                        <td onLoad={totalCartPrice()}>{totalPrice - parseInt(sessionStorage.getItem('shipping'))}VND</td>
+                                                        <td onLoad={totalCartPrice()}>{formatNumber(totalPrice - parseInt(sessionStorage.getItem('shipping')))}VND</td>
                                                     </tr>
                                                     <tr>
                                                         <td>Shipping:</td>
-                                                        <td>{sessionStorage.getItem('shipping')}</td>
+                                                        <td>{formatNumber(parseInt(sessionStorage.getItem('shipping')))}</td>
                                                     </tr>
                                                     <tr className="summary-total">
                                                         <td>Total:</td>
-                                                        <td>{totalPrice}</td>
+                                                        <td>{formatNumber(totalPrice)}</td>
                                                     </tr>
                                                 </tbody>
                                             </table>
