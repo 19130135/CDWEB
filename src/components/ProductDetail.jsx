@@ -15,7 +15,7 @@ function ProductDetail(props) {
     const { id } = useParams();
     console.log(id);
     const [productDetail, setProductDetail] = useState();
-
+    
     const dispatch = useDispatch();
 
     const handleAddToCart = async (item) => {

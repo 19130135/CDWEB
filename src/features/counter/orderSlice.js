@@ -6,6 +6,7 @@ const initialState = {
     isOpen: false,
     billDetails: [],
   },
+  paymentDetail: {},
 };
 
 export const orderSlice = createSlice({
@@ -23,6 +24,9 @@ export const orderSlice = createSlice({
     orderModal: (state, action) => {
       state.orderModal.billDetails = action.payload.billDetails;
     },
+    paymentDetail: (state, action) => {
+      state.paymentDetail = action.payload;
+    },
     decrement: (state) => {
       state.value -= 1;
     },
@@ -33,11 +37,16 @@ export const orderSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { ordersInfo, orderModal, decrement, incrementByAmount } =
-  orderSlice.actions;
+export const {
+  ordersInfo,
+  paymentDetail,
+  orderModal,
+  decrement,
+  incrementByAmount,
+} = orderSlice.actions;
 
 export const selectOrdersInfo = (state) => state.orderList.ordersInfo;
-
+export const selectPayment = (state) => state.orderList.paymentDetail;
 export const selectOrderModal = (state) =>
   state.orderList.orderModal.billDetails;
 

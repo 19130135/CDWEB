@@ -15,18 +15,19 @@ function DetailPayment(props) {
     const dispatch = useDispatch();
     const location = useLocation();
     const query = queryString.parse(location.search);
-    console.log("vnp_Amount:", query.vnp_Amount,
-        "vnp_BankCode:", query.vnp_BankCode,
-        "vnp_BankTranNo:", query.vnp_BankTranNo,
-        "vnp_CardType:", query.vnp_CardType,
-        "vnp_OrderInfo:", query.vnp_OrderInfo,
-        "vnp_PayDate:", query.vnp_PayDate,
-        "vnp_ResponseCode:", query.vnp_ResponseCode,
-        "vnp_TmnCode:", query.vnp_TmnCode,
-        "vnp_TransactionNo:", query.vnp_TransactionNo,
-        "vnp_TransactionStatus:", query.vnp_TransactionStatus,
-        "vnp_TxnRef:", query.vnp_TxnRef,
-        "vnp_SecureHash:", query.vnp_SecureHash)
+    // console.log("vnp_Amount:", query.vnp_Amount,
+    //     "vnp_BankCode:", query.vnp_BankCode,
+    //     "vnp_BankTranNo:", query.vnp_BankTranNo,
+    //     "vnp_CardType:", query.vnp_CardType,
+    //     "vnp_OrderInfo:", query.vnp_OrderInfo,
+    //     "vnp_PayDate:", query.vnp_PayDate,
+    //     "vnp_ResponseCode:", query.vnp_ResponseCode,
+    //     "vnp_TmnCode:", query.vnp_TmnCode,
+    //     "vnp_TransactionNo:", query.vnp_TransactionNo,
+    //     "vnp_TransactionStatus:", query.vnp_TransactionStatus,
+    //     "vnp_TxnRef:", query.vnp_TxnRef,
+    //     "vnp_SecureHash:", query.vnp_SecureHash);
+    const tails = location.search;
     const navigate = useNavigate();
     const next = () => {
         navigate("/paymentInfo", { replace: true });
@@ -34,32 +35,36 @@ function DetailPayment(props) {
     const paymentAPI = async (e) => {
         console.log("api day ne")
         const response = await axios({
-            method: 'PUT',
-            url: `http://localhost:8080/payment${location.search}`,
+            method: "PUT",
+            url: `http://localhost:8080/payment${tails}`,
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`,
-            },
-            params: {
-                vnp_Amount: parseInt(query.vnp_Amount),
-                vnp_BankCode: query.vnp_BankCode,
-                vnp_BankTranNo: query.vnp_BankTranNo,
-                vnp_CardType: query.vnp_CardType,
-                vnp_OrderInfo: query.vnp_OrderInfo,
-                vnp_PayDate: query.vnp_PayDate,
-                vnp_ResponseCode: query.vnp_ResponseCode,
-                vnp_TmnCode: query.vnp_TmnCode,
-                vnp_TransactionNo: query.vnp_TransactionNo,
-                vnp_TransactionStatus: query.vnp_TransactionStatus,
-                vnp_TxnRef: query.vnp_TxnRef,
-                vnp_SecureHash: query.vnp_SecureHash,
             }
+            // },
+            // params: {
+            //     vnp_Amount: query.vnp_Amount,
+            //     vnp_BankCode: query.vnp_BankCode,
+            //     vnp_BankTranNo: query.vnp_BankTranNo,
+            //     vnp_CardType: query.vnp_CardType,
+            //     vnp_OrderInfo: query.vnp_OrderInfo,
+            //     vnp_PayDate: query.vnp_PayDate,
+            //     vnp_ResponseCode: query.vnp_ResponseCode,
+            //     vnp_TmnCode: query.vnp_TmnCode,
+            //     vnp_TransactionNo: query.vnp_TransactionNo,
+            //     vnp_TransactionStatus: query.vnp_TransactionStatus,
+            //     vnp_TxnRef: query.vnp_TxnRef,
+            //     vnp_SecureHash: query.vnp_SecureHash,
+            // }
         })
         // e.preventDefault();
 
         console.log("----resPayment", response);
-        localStorage.setItem('status', response.data.status);
-        localStorage.setItem('note', response.data.note);
-        localStorage.setItem('reload', "false");
+        sessionStorage.setItem('id', response.data.id);
+        sessionStorage.setItem('date', response.data.datecreate);
+        sessionStorage.setItem('address', response.data.address);
+        sessionStorage.setItem('status', response.data.status);
+        sessionStorage.setItem('note', response.data.note);
+
         next();
     }
     // console.log("---notiS: ", notiP);
