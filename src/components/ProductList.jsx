@@ -174,11 +174,12 @@ function ProductList(props) {
                                                         <div className="ratings-container">
                                                             <div className="ratings">
                                                                 <div className="ratings-val" style={{ width: ' 80%' }}></div>
+
                                                             </div>
                                                         </div>
-
-                                                        
-
+                                                        <div>
+                                                            <p>Đơn giá: {product.price}</p>
+                                                        </div>
                                                         <button onClick={() => { handleAddToCart(product) }} className="btn-product btn-cart"><span>add to cart</span></button>
                                                     </div>
                                                 </div>

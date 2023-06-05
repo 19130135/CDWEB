@@ -9,7 +9,24 @@ PaymentInfo.propTypes = {
 };
 
 function PaymentInfo(props) {
-    const detail = useSelector(paymentDetail);
+    useEffect(() => {
+        // Hành động cần thực hiện ngay lập tức khi trang được truy cập
+
+        // Ví dụ: In ra thông báo trong console
+        console.log('Trang đã được truy cập');
+        console.log(localStorage.getItem('reload'));
+        if (localStorage.getItem('reload') === "false") {
+            console.log("vo day roi!")
+            localStorage.setItem('reload', "true");
+            window.location.reload();
+        }
+        // Hoặc thực hiện các tác vụ khác
+
+        // Hàm cleanup (được gọi khi component bị unmount)
+        return () => {
+            // Thực hiện các tác vụ cleanup (nếu cần)
+        };
+    }, []);
     return (
         <div>
             <main className="main">

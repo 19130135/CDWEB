@@ -216,12 +216,9 @@ function ProductListSearch(props) {
                                                             </div>
                                                             <span className="ratings-text">( 2 Reviews )</span>
                                                         </div>
-
-                                                        <div className="product-action">
-                                                            <a href="popup/quickView.html" className="btn-product btn-quickview" title="Quick view"><span>quick view</span></a>
-                                                            <a href="#" className="btn-product btn-compare" title="Compare"><span>compare</span></a>
+                                                        <div>
+                                                            <p>Đơn giá: {product.price}</p>
                                                         </div>
-
                                                         <a onClick={() => { handleAddToCart(product) }} className="btn-product btn-cart"><span>add to cart</span></a>
                                                     </div>
                                                 </div>

@@ -50,7 +50,7 @@ function Category(props) {
 
                                         <a className="banner-link">
                                             <h3 className="banner-title">Flycam</h3>
-                                            <h4 className="banner-subtitle">2 Products</h4>
+                                            <h4 className="banner-subtitle">4 Products</h4>
                                             <span className="banner-link-text" onClick={() => { handleNavigate("flycam") }}>Shop Now</span>
                                         </a>
                                     </div>
@@ -78,7 +78,7 @@ function Category(props) {
 
                                                 <a className="banner-link" >
                                                     <h3 className="banner-title">Camera</h3>
-                                                    <h4 className="banner-subtitle">1 Products</h4>
+                                                    <h4 className="banner-subtitle">3 Products</h4>
                                                     <span className="banner-link-text" onClick={() => { handleNavigate("Máy ảnh") }}>Shop Now</span>
                                                 </a>
                                             </div>
@@ -92,7 +92,7 @@ function Category(props) {
 
                                                 <a className="banner-link" >
                                                     <h3 className="banner-title">Play Station</h3>
-                                                    <h4 className="banner-subtitle">1 Products</h4>
+                                                    <h4 className="banner-subtitle">2 Products</h4>
                                                     <span className="banner-link-text" onClick={() => { handleNavigate("play station") }}>Shop Now</span>
                                                 </a>
                                             </div>
@@ -106,7 +106,7 @@ function Category(props) {
 
                                         <a className="banner-link" >
                                             <h3 className="banner-title">Robot</h3>
-                                            <h4 className="banner-subtitle">1 Products</h4>
+                                            <h4 className="banner-subtitle">3 Products</h4>
                                             <span className="banner-link-text" onClick={() => { handleNavigate("robot") }}>Shop Now</span>
                                         </a>
                                     </div>

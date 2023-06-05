@@ -59,6 +59,7 @@ function DetailPayment(props) {
         // e.preventDefault();
 
         console.log("----resPayment", response);
+        localStorage.setItem('reload', "false");
         sessionStorage.setItem('id', response.data.id);
         sessionStorage.setItem('date', response.data.datecreate);
         sessionStorage.setItem('address', response.data.address);
